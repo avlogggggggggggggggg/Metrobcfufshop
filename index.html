@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Shop</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #0e0e0e; /* Очень темный фон */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Предотвращаем полосы прокрутки */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+            overflow: hidden; /* Обрезаем выходящие элементы */
+        }
+
+        /* Фоновые элементы */
+        .bg-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .bg-line {
+            position: absolute;
+            background: linear-gradient(to right, rgba(50, 200, 255, 0), rgba(50, 200, 255, 0.5), rgba(50, 200, 255, 0));
+            height: 2px;
+            animation: moveLine 10s linear infinite;
+        }
+
+        .bg-line:nth-child(1) { top: 20%; width: 150%; left: -25%; }
+        .bg-line:nth-child(2) { top: 50%; width: 120%; left: -10%; animation-delay: 2s; }
+        .bg-line:nth-child(3) { top: 80%; width: 180%; left: -40%; animation-delay: 4s; }
+
+        @keyframes moveLine {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Заголовок */
+        .header {
+            text-align: left;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            letter-spacing: -2px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(50, 200, 255, 0.8); /* Неоновый эффект */
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #999;
+        }
+
+        /* Категории */
+        .category-buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 25px;
+            margin-bottom: 40px;
+            overflow-x: auto; /* Горизонтальная прокрутка */
+            scrollbar-width: none; /* Скрываем полосу прокрутки */
+            -ms-overflow-style: none; /* IE и Edge */
+        }
+
+        .category-buttons::-webkit-scrollbar {
+            display: none; /* Chrome, Safari и Opera */
+        }
+
+        .category-button {
+            padding: 15px 35px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-button:hover {
+            background-color: rgba(50, 200, 255, 0.1);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .category-button.active {
+            background-color: #32c8ff;
+            color: #000;
+            box-shadow: 0 6px 12px rgba(50, 200, 255, 0.5);
+        }
+
+        /* Список товаров */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .product-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .product-card p {
+            color: #bbb;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        .product-card a {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: #32c8ff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(50, 200, 255, 0.5);
+        }
+
+        .product-card a:hover {
+            background-color: #fff;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bg-elements">
+            <div class="bg-line"></div>
+            <div class="bg-line"></div>
+            <div class="bg-line"></div>
+        </div>
+
+        <header class="header">
+            <h1>Metro Shop</h1>
+            <p>Эксклюзивные товары для Metro Royale</p>
+        </header>
+
+        <div class="category-buttons">
+            <button class="category-button active" data-category="all">Все товары</button>
+            <button class="category-button" data-category="weapons">Оружие</button>
+            <button class="category-button" data-category="skins">Скины</button>
+            <button class="category-button" data-category="equipment">Снаряжение</button>
+            <button class="category-button" data-category="crates">Кейсы</button>
+        </div>
+
+        <div class="product-list">
+            <!-- Здесь будут карточки товаров -->
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Фулл 6", category: "weapons", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmZkPBCOI-1AOvcybO4rvwC0m1nWUmWgJcfQ&s", description: "Комплект брони 6-ого уровня.", link: "product.html" },
+            { id: 2, name: "Cyberpunk Suit", category: "skins", image: "https://via.placeholder.com/400", description: "Футуристичный костюм в стиле киберпанк.", link: "product2.html" },
+            { id: 3, name: "Tactical Backpack", category: "equipment", image: "https://via.placeholder.com/400", description: "Прочный тактический рюкзак с множеством отделений.", link: "product3.html" },
+            { id: 4, name: "Legendary Crate", category: "crates", image: "https://via.placeholder.com/400", description: "Шанс получить легендарные предметы.", link: "product4.html" },
+        ];
+
+        const productList = document.querySelector(".product-list");
+        const categoryButtons = document.querySelectorAll(".category-button");
+
+        function displayProducts(category) {
+            productList.innerHTML = "";
+
+            let filteredProducts = products;
+            if (category !== "all") {
+                filteredProducts = products.filter(product => product.category === category);
+            }
+
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.classList.add("product-card");
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <a href="${product.link}">Перейти</a>
+                `;
+                productList.appendChild(productCard);
+            });
+        }
+
+        displayProducts("all");
+
+        categoryButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                categoryButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+
+                const category = button.dataset.category;
+                displayProducts(category);
+            });
+        });
+    </script>
+</body>
+</html>

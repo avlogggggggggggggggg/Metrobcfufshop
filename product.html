@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Shop - Товар</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap">
+    <style>
+        /* (Оставьте стили, как и раньше, без изменений) */
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #0e0e0e; /* Очень темный фон */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Предотвращаем полосы прокрутки */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+            overflow: hidden; /* Обрезаем выходящие элементы */
+        }
+
+        /* Фоновые элементы */
+        .bg-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .bg-line {
+            position: absolute;
+            background: linear-gradient(to right, rgba(50, 200, 255, 0), rgba(50, 200, 255, 0.5), rgba(50, 200, 255, 0));
+            height: 2px;
+            animation: moveLine 10s linear infinite;
+        }
+
+        .bg-line:nth-child(1) { top: 20%; width: 150%; left: -25%; }
+        .bg-line:nth-child(2) { top: 50%; width: 120%; left: -10%; animation-delay: 2s; }
+        .bg-line:nth-child(3) { top: 80%; width: 180%; left: -40%; animation-delay: 4s; }
+
+        @keyframes moveLine {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Карточка товара */
+        .product-details {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .product-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            transition: transform 0.5s ease;
+        }
+
+        .product-details h1 {
+            font-size: 3em;
+            font-weight: 700;
+            letter-spacing: -2px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(50, 200, 255, 0.8); /* Неоновый эффект */
+            margin-bottom: 20px;
+        }
+
+        .product-details p {
+            color: #bbb;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Кнопка "Купить" */
+        .buy-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background-color: #32c8ff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(50, 200, 255, 0.5);
+            font-size: 1.2em;
+            cursor: pointer; /* Добавляем курсор указателя */
+        }
+
+        .buy-button:hover {
+            background-color: #fff;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        /* Попап */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none; /* Скрываем попап */
+        }
+
+        .popup-content {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        .popup-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .popup-button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-button.yes {
+            background-color: #32c8ff;
+            color: #000;
+        }
+
+        .popup-button.no {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .popup-button:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bg-elements">
+            <div class="bg-line"></div>
+            <div class="bg-line"></div>
+            <div class="bg-line"></div>
+        </div>
+
+        <div class="product-details">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmZkPBCOI-1AOvcybO4rvwC0m1nWUmWgJcfQ&s" alt="Товар">
+            <h1 id="product-name">Комплект брони 6-ого уровня (фулл 6)</h1>
+            <p>Комплект брони 6-ого уровня. В комплект входит: шлем (6), броня (6), рюкзак (6). БРОНЯ ИДЕТ БЕЗ РАДКИ (ОСВИНЦОВОЙ ТКАНИ).</p>
+            <a href="#" class="buy-button" id="buy-button">Купить за 49,99₽</a>
+        </div>
+
+        <!-- Попап подтверждения -->
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <p>Вы точно хотите купить "<span id="popup-product-name"></span>" у продавца?</p>
+                <div class="popup-buttons">
+                    <button class="popup-button yes" id="popup-yes">Да</button>
+                    <button class="popup-button no" id="popup-no">Нет</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const buyButton = document.getElementById('buy-button');
+        const popup = document.getElementById('popup');
+        const popupProductName = document.getElementById('popup-product-name');
+        const popupYes = document.getElementById
+ 
+('popup-yes');
+        const popupNo = document.getElementById('popup-no');
+        const productName = document.getElementById('product-name').innerText; // Получаем название товара
+
+        buyButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Предотвращаем переход по ссылке
+
+            popupProductName.innerText = productName; // Устанавливаем название товара в попап
+            popup.style.display = 'flex'; // Отображаем попап
+        });
+
+        popupNo.addEventListener('click', () => {
+            popup.style.display = 'none'; // Скрываем попап
+        });
+
+        popupYes.addEventListener('click', () => {
+            // Создаем ссылку для отправки сообщения в Telegram
+            const telegramUsername = 'fuuuuuuuli'; // Замените на реальный username продавца
+            const telegramMessage = `Здравствуйте! Я хочу приобрести в Вашем метро-шопе "${productName}", и готов оплатить сумму.`;
+            const telegramLink = `https://t.me/${telegramUsername}?start=${encodeURIComponent(telegramMessage)}`;
+
+            window.location.href = telegramLink; // Перенаправляем в Telegram
+
+            popup.style.display = 'none'; // Скрываем попап
+        });
+    </script>
+</body>
+</html>
