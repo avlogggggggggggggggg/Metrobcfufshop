@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FS Aesthet: Фигурное Катание</title>
+
+    <!-- Google Fonts: Inter для основного текста, Roboto Condensed для заголовков -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Telegram-inspired Design by FSA --- */
+
+        /* -- CSS Variables: Основная палитра Telegram (белый, синий, серый) -- */
+        :root {
+            /* Основные цвета Telegram */
+            --tg-bg-primary: #FFFFFF; /* Белый фон */
+            --tg-text-primary: #1C1C1E; /* Основной темный текст */
+            --tg-text-secondary: #8E8E93; /* Вторичный серый текст */
+            --tg-accent-blue: #007AFF; /* Основной синий акцент */
+            --tg-accent-blue-hover: #005EC4; /* Синий акцент при наведении */
+            --tg-bg-section: #F2F2F7; /* Светлый фон для секций */
+            --tg-bg-card: #FFFFFF; /* Белый фон для карточек (как сообщения) */
+            --tg-border-card: #E5E5EA; /* Легкая граница для карточек */
+            --tg-shadow-card: 0 2px 5px rgba(0, 0, 0, 0.08); /* Легкая тень */
+            --tg-icon-color: var(--tg-accent-blue); /* Цвет иконок */
+            --tg-icon-hover-color: var(--tg-accent-blue-hover); /* Цвет иконок при наведении */
+            --tg-header-bg: rgba(255, 255, 255, 0.95); /* Полупрозрачный белый фон хедера */
+            --tg-header-shadow: 0 1px 0 rgba(0, 0, 0, 0.1); /* Тень хедера */
+            --tg-loading-bg: #FFFFFF; /* Белый фон загрузки */
+            --tg-loading-spinner-border: rgba(0, 0, 0, 0.1); /* Граница спиннера загрузки */
+            --tg-loading-spinner-color: var(--tg-accent-blue); /* Цвет спиннера загрузки */
+            --tg-pattern-opacity: 0.05; /* Прозрачность узоров */
+
+            /* --- Узоры --- */
+            --tg-pattern-diagonal: repeating-linear-gradient(
+                -45deg,                 rgba(0, 0, 0, var(--tg-pattern-opacity)),
+                transparent 5px,
+                rgba(0, 0, 0, var(--tg-pattern-opacity)) 10px
+            );
+            --tg-pattern-dots: radial-gradient(
+                circle,
+                rgba(0, 0, 0, var(--tg-pattern-opacity)) 2px,
+                transparent 2px
+            );
+        }
+
+        /* --- Глобальные стили --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Основной шрифт - чистый и читаемый */
+            margin: 0;
+            padding: 0;
+            background-color: var(--tg-bg-primary); /* Белый фон */
+            color: var(--tg-text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden; /* Предотвращаем горизонтальный скролл */
+            display: flex;
+            flex-direction: column;
+            font-weight: 400;
+        }
+
+        /* --- Логотип --- */
+        .logo {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 2.2em; /* Увеличен размер */
+            color: var(--tg-accent-blue); /* Цвет логотипа - синий */
+            margin: 0 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-flex; /* Чтобы можно было позиционировать */
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 1.2em; /* Размер иконки внутри лого */
+            margin-right: 8px;
+            color: var(--tg-accent-blue);
+        }
+
+        /* --- Хедер --- */
+        .header {
+            background: var(--tg-header-bg); /* Полупрозрачный белый фон */
+            color: var(--tg-text-primary);
+            padding: 15px 20px; /* Более компактный отступ */
+            text-align: center;
+            box-shadow: var(--tg-header-shadow); /* Тонкая тень */
+            position: sticky; /* Закрепленный хедер */
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between; /* Располагаем лого и навигацию по краям */
+            align-items: center;
+            flex-wrap: wrap; /* Перенос элементов на мобильных */
+        }
+
+        .header h1 {
+            font-family: 'Roboto Condensed', sans-serif; /* Шрифт для заголовка */
+            font-size: 1.8em; /* Уменьшен размер */
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            flex-grow: 1; /* Занимает доступное пространство */
+            color: var(--tg-accent-blue); /* Заголовок тоже синий */
+        }
+
+        .header nav {
+            display: flex;
+            gap: 20px;
+            margin-left: auto; /* Сдвигаем навигацию вправо */
+        }
+
+        .header a {
+            color: var(--tg-text-primary); /* Цвет ссылок - основной текст */
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: color var(--transition-speed);
+        }
+
+        .header a:hover {
+            color: var(--tg-accent-blue-hover); /* Цвет при наведении */
+        }
+
+        /* --- Загрузка --- */
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--tg-loading-bg); /* Белый фон загрузки */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-out; /* Плавное скрытие */
+        }
+
+        .loading-container.hidden {
+            opacity: 0;
+            pointer-events: none; /* Чтобы нельзя было кликать по невидимому контейнеру */
+        }
+
+        .loading-spinner {
+            border: 4px solid var(--tg-loading-spinner-border); /* Граница спиннера */
+            border-top: 4px solid var(--tg-loading-spinner-color); /* Цвет акцента */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* Более плавная анимация */
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 1.1em;
+            opacity: 0.85;
+            color: var(--tg-text-secondary); /* Серый текст */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Главная страница --- */
+        .container {
+            max-width: 1000px; /* Увеличена максимальная ширина */
+            margin: 30px auto; /* Отступ сверху/снизу */
+            padding: 0 20px; /* Горизонтальный отступ */
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards ease-in-out; /* Увеличена длительность fadeIn */
+            animation-delay: 1.8s; /* Задержка после загрузки */
+            flex-grow: 1; /* Позволяет контейнеру занимать доступное пространство */
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Фон с узором --- */
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* За фоновым содержимым */
+            opacity: 0.2; /* Сделаем узор менее навязчивым */
+        }
+
+        .background-pattern.diagonal {
+            background: var(--tg-pattern-diagonal);
+            /* Можно выбрать один узор или комбинировать */
+        }
+
+        .background-pattern.dots {
+            background: var(--tg-pattern-dots);
+        }
+
+
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Чуть больше минимальный размер */
+            gap: 20px; /* Уменьшен отступ между карточками */
+            justify-content: center;
+            padding: 20px 0; /* Добавлен padding сверху/снизу */
+            position: relative; /* Для позиционирования фона */
+            z-index: 2; /* Над фоном */
+        }
+
+        .section-card {
+            background: var(--tg-bg-card); /* Белый фон карточки */
+            padding: 25px; /* Уменьшены отступы */
+            border-radius: 12px; /* Более скругленные углы */
+            text-decoration: none;
+            color: var(--tg-text-secondary); /* Серый текст описания */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Центрируем содержимое */
+            align-items: center;
+            transition: all 0.3s ease; /* Более плавный переход */
+            box-shadow: var(--tg-shadow-card); /* Легкая тень */
+            border: 1px solid var(--tg-border-card); /* Светлая граница */
+            overflow: hidden; /* Чтобы содержимое не вылезало */
+            text-align: center;
+            position: relative; /* Для псевдоэлемента */
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0) 70%); /* Нежный внутренний градиент */
+            opacity: 1;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 0; /* Под содержимым */
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px) scale(1.01); /* Легкий подъем и увеличение */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Более выраженная тень при наведении */
+            background: var(--tg-bg-primary); /* Фон остается белым */
+            border-color: var(--tg-accent-blue); /* Синяя граница при наведении */
+            color: var(--tg-text-primary); /* Текст становится темным */
+        }
+
+        .section-card:hover::before {
+            transform: scale(1.1); /* Эффект приближения */
+            opacity: 0.7;
+        }
+
+        .section-card h2 {
+            margin-top: 10px; /* Уменьшен отступ */
+            font-size: 1.3em; /* Уменьшен размер заголовка карточки */
+            font-weight: 700; /* Жирный шрифт */
+            margin-bottom: 10px;
+            color: var(--tg-accent-blue); /* Заголовок карточки синий */
+            transition: color var(--transition-speed);
+            position: relative; /* Для позиционирования */
+            z-index: 1; /* Над фоном */
+        }
+
+        .section-card:hover h2 {
+            color: var(--tg-accent-blue-hover); /* Более темный синий при наведении */
+        }
+
+        .section-card p {
+            font-size: 0.95em; /* Уменьшен размер описания */
+            opacity: 0.9;
+            text-align: center;
+            line-height: 1.5;
+            transition: color var(--transition-speed);
+            position: relative; /* Для позиционирования */
+            z-index: 1; /* Над фоном */
+        }
+
+        .section-icon {
+            font-size: 2.8em; /* Уменьшен размер иконки */
+            margin-bottom: 15px;
+            color: var(--tg-icon-color); /* Цвет акцента для иконки */
+            transition: all 0.3s ease;
+            position: relative; /* Для позиционирования */
+            z-index: 1; /* Над фоном */
+        }
+
+        .section-card:hover .section-icon {
+            color: var(--tg-icon-hover-color); /* Более темный синий при наведении */
+            transform: scale(1.1); /* Иконка увеличивается */
+        }
+
+        /* --- Адаптивность --- */
+        @media (max-width: 992px) {
+            .header {
+                padding: 12px 15px;
+            }
+            .header h1 {
+                font-size: 1.6em;
+                letter-spacing: 1px;
+            }
+            .header a {
+                font-size: 1em;
+            }
+            .container {
+                margin: 25px auto;
+            }
+            .sections {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            .section-card {
+                padding: 20px;
+            }
+            .section-card h2 {
+                font-size: 1.2em;
+            }
+            .section-card p {
+                font-size: 0.9em;
+            }
+            .section-icon {
+                font-size: 2.5em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column; /* Элементы в колонку */
+                gap: 10px;
+            }
+            .header h1 {
+                margin-bottom: 10px;
+            }
+            .header nav {
+                margin-left: 0;
+                justify-content: center;
+                width: 100%; /* Навигация занимает всю ширину */
+            }
+            .container {
+                padding: 0 15px;
+                margin: 20px auto;
+            }
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+            }
+            .loading-text {
+                font-size: 1em;
+            }
+            .sections {
+                grid-template-columns: 1fr; /* В одну колонку на мобильных */
+                gap: 15px;
+            }
+            .section-card {
+			padding: 20px;
+            }
+            .section-card h2 {
+                font-size: 1.4em; /* Чуть больше на мобильных */
+            }
+            .section-card p {
+                font-size: 1em;
+            }
+            .section-icon {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.4em;
+                letter-spacing: 1px;
+            }
+            .header a {
+                font-size: 0.9em;
+            }
+            .loading-spinner {
+                width: 40px;
+                height: 40px;
+            }
+            .loading-text {
+                font-size: 0.9em;
+            }
+            .section-card h2 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading-container" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Загрузка...</div>
+    </div>
+
+    <!-- Хедер -->
+    <div class="header">
+        <div class="logo">
+            <i class="fab fa-telegram logo-icon" aria-hidden="true"></i> <!-- Иконка Telegram -->
+            FS Aesthet
+        </div>
+        <nav>
+            <a href="#">Главная</a>
+            <a href="#">О нас</a>
+            <a href="#">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="container" id="content" style="display: none;">
+        <div class="background-pattern diagonal"></div> <!-- Один из вариантов узора -->
+        <div class="sections">
+            <a href="competitions.html" class="section-card">
+                <i class="fas fa-calendar-alt section-icon" aria-hidden="true"></i> <!-- Иконка календаря -->
+                <h2>Турниры</h2>
+                <p>Узнайте о предстоящих и прошедших соревнованиях.</p>
+            </a>
+            <a href="#" class="section-card">
+                <i class="fas fa-star section-icon" aria-hidden="true"></i> <!-- Иконка звезды -->
+                <h2>Рекорды и Легенды</h2>
+                <p>Истории великих спортсменов и их достижения.</p>
+            </a>
+            <a href="#" class="section-card">
+                <i class="fas fa-list-ol section-icon" aria-hidden="true"></i> <!-- Иконка списка -->
+                <h2>Рейтинги</h2>
+                <p>Актуальные данные мировых рейтингов.</p>
+            </a>
+            <a href="#" class="section-card">
+                <i class="fas fa-skiing-nordic section-icon" aria-hidden="true"></i> <!-- Иконка лыжника/фигуриста -->
+                <h2>Техника</h2>
+                <p>Разбор элементов и прыжков.</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingContainer = document.getElementById('loading');
+            const contentContainer = document.getElementById('content');
+
+            // Убираем overflow: hidden с body после загрузки для возможного скролла
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                loadingContainer.classList.add('hidden'); // Добавляем класс для скрытия
+                // Ждем окончания анимации скрытия, затем полностью удаляем/скрываем
+                loadingContainer.addEventListener('transitionend', () => {
+                    loadingContainer.style.display = 'none';
+                    contentContainer.style.display = 'block';
+                    document.body.style.overflow = 'auto'; // Включаем скролл
+                    // Применяем анимацию появления контента после скрытия лоадера
+                    contentContainer.style.animation = 'fadeIn 0.8s forwards ease-in-out 0.2s';
+                }, { once: true });
+            }, 1500); // Время отображения лоадера (можно настроить)
+        });
+    </script>
+
+</body>
+</html>
+

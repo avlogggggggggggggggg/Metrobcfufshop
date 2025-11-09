@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Турниры - Фигурное Катание</title>
+
+    <!-- Google Fonts: Inter, Roboto Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Telegram-inspired Design by FSA --- */
+        :root {
+            /* Общие цвета Telegram */
+            --tg-bg-primary: #f0f2f5; /* Светло-серый фон страницы, как в Telegram */
+            --tg-text-primary: #000000; /* Основной черный текст */
+            --tg-text-secondary: #8e8e93; /* Вторичный серый текст */
+            --tg-accent-blue: #007AFF; /* Основной синий акцент */
+            --tg-accent-blue-hover: #005EC4; /* Синий акцент при наведении */
+            --tg-header-bg: #ffffff; /* Белый фон хедера */
+            --tg-header-shadow: 0 1px 0 rgba(0, 0, 0, 0.08); /* Легкая тень хедера */
+            --tg-pattern-opacity: 0.05; /* Прозрачность узоров */
+
+            /* Цвета и стили для карточек */
+            --tg-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f7f9 100%); /* Мягкий градиент для карточек */
+            --tg-card-border: #dcdcdc; /* Более темная граница для карточек */
+            --tg-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Более выраженная тень */
+            --tg-card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12); /* Более выраженная тень при наведении */
+
+            /* Цвета текста на карточке */
+            --tg-card-text-category: #555555; /* Более темный серый для категории */
+            --tg-card-text-title: #1c1c1e; /* Почти черный для названия турнира */
+            --tg-card-text-label: #666666; /* Серый для лейблов */
+            --tg-card-text-value: #1c1c1e; /* Почти черный для значений */
+
+            /* Эффект "рельефного" текста */
+            --tg-text-emboss-light: 0.5px 0.5px 1px rgba(255, 255, 255, 0.8), -0.5px -0.5px 1px rgba(0, 0, 0, 0.1);
+            --tg-text-emboss-dark: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2), -0.5px -0.5px 1px rgba(255, 255, 255, 0.6);
+
+            --transition-speed: 0.3s ease;
+        }
+
+        /* --- Глобальные стили --- */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--tg-bg-primary);
+            color: var(--tg-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            font-weight: 400;
+        }
+
+        /* --- Логотип --- */
+        .logo {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 2em; /* Немного уменьшен */
+            color: var(--tg-accent-blue);
+            margin: 0 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+        }
+        .logo-icon { font-size: 1.1em; margin-right: 8px; color: var(--tg-accent-blue); }
+
+        /* --- Хедер --- */
+        .header {
+            background: var(--tg-header-bg);
+            padding: 12px 20px; /* Немного меньше padding */
+            box-shadow: var(--tg-header-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header nav {
+            display: flex;
+            gap: 25px; /* Увеличен отступ между ссылками */
+            margin-left: auto;
+        }
+        .header a {
+            color: var(--tg-text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05em; /* Немного меньше размер */
+            transition: color var(--transition-speed);
+            position: relative; /* Для подводки */
+        }
+        .header a::after { /* Подводка под ссылкой */
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--tg-accent-blue);
+            transition: width var(--transition-speed);
+        }
+        .header a:hover {
+            color: var(--tg-accent-blue-hover);
+        }
+        .header a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Контейнер для страницы --- */
+        .page-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            text-align: center;
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- Заголовок страницы --- */
+        h1 {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 2.6em; /* Немного уменьшен */
+            font-weight: 700;
+            margin-bottom: 30px; /* Немного уменьшен */
+            text-transform: uppercase;
+            letter-spacing: 1.5px; /* Немного уменьшен */
+            color: var(--tg-text-primary);
+            position: relative;
+            padding-bottom: 8px; /* Немного уменьшен */
+        }
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 70px; /* Немного уменьшен */
+            height: 2.5px; /* Немного изменен */
+            background-color: var(--tg-accent-blue);
+            border-radius: 2px;
+        }
+
+        /* --- Секция с турнирами --- */
+        .tournament-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Оптимизировано для лучшего размещения */
+            gap: 20px; /* Уменьшен отступ между карточками */
+            padding: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Карточка турнира --- */
+        .tournament-card {
+            background: var(--tg-card-bg); /* Новый градиентный фон */
+            border: 1px solid var(--tg-card-border); /* Светлая граница */
+            border-radius: 15px; /* Скругленные углы */
+            box-shadow: var(--tg-card-shadow); /* Тень для эффекта приподнятости */
+            padding: 25px; /* Увеличенный внутренний отступ */
+            text-decoration: none;
+            color: var(--tg-text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Выравнивание всего текста по левому краю */
+            text-align: left;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            height: 340px; /* Фиксированная высота */
+            overflow: hidden; /* Скрываем содержимое, выходящее за пределы */
+            position: relative; /* Для эффектов */
+        }
+        .tournament-card::before { /* Добавляем легкий узор */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.02) 0px,
+                rgba(0, 0, 0, 0.02) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            opacity: var(--tg-pattern-opacity);
+            pointer-events: none;
+        }
+        .tournament-card:hover {
+            transform: translateY(-5px); /* Легкий подъем при наведении */
+            box-shadow: var(--tg-card-shadow-hover); /* Более выраженная тень */
+        }
+
+        .tournament-card-category {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.8em; /* Крупный размер для "РОССИИ" */
+            font-weight: 700;
+            color: var(--tg-card-text-category);
+            text-transform: uppercase;
+            margin-bottom: 15px; /* Немного уменьшен */
+            width: 100%;
+            text-align: center; /* Центрируем категорию */
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5); /* Легкая тень для контраста */
+        }
+
+        .tournament-card-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1em; /* Размер для названия турнира */
+            font-weight: 600;
+            color: var(--tg-card-text-title);
+            margin-bottom: 15px; /* Немного уменьшен */
+            flex-grow: 1; /* Позволяет заголовку занимать свободное место */
+            line-height: 1.3;
+            text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.7); /* Легкий эффект */
+        }
+
+        .tournament-card-details p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95em;
+            margin-bottom: 7px; /* Отступ между строками информации */
+            line-height: 1.4;
+            color: var(--tg-card-text-value);
+            width: 100%;
+            display: flex; /* Для выравнивания лейбла и значения */
+            gap: 5px; /* Отступ между лейблом и значением */
+        }
+        .tournament-card-details p:last-child { margin-bottom: 0; }
+
+        .tournament-card-details .label {
+            font-weight: 500;
+            color: var(--tg-card-text-label);
+            white-space: nowrap; /* Чтобы лейбл не переносился */
+            flex-shrink: 0; /* Предотвращаем сжатие лейбла */
+        }
+        .tournament-card-details .value {
+            flex-grow: 1; /* Значение занимает оставшееся пространство */
+        }
+
+        /* --- Актуальный турнир --- */
+        .tournament-card.is-current {
+            border-color: var(--tg-accent-blue); /* Синяя граница для актуального */
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.3); /* Синяя тень */
+            /* transform: translateY(-5px); /* Уже приподнят, убираем, чтобы не конфликтовал с общим :hover */
+        }
+        .tournament-card.is-current:hover {
+            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4); /* Еще более выраженная синяя тень */
+            transform: translateY(-5px); /* Подъем при наведении */
+        }
+        .tournament-card.is-current .tournament-card-category {
+            color: var(--tg-accent-blue); /* Синий цвет категории */
+        }
+        .tournament-card.is-current .tournament-card-title {
+            font-weight: 700; /* Более жирный заголовок */
+        }
+
+        /* --- Остальные турниры --- */
+        .tournament-card:not(.is-current) { /* Если у карточки НЕТ класса is-current */
+            border-color: #b3e5fc; /* Светло-голубая обводка */
+        }
+        /* При наведении на НЕАКТУАЛЬНЫЕ турниры */
+        .tournament-card:not(.is-current):hover {
+            transform: translateY(-5px); /* Легкий подъем при наведении */
+            box-shadow: var(--tg-card-shadow-hover); /* Более выраженная тень */
+        }
+
+        /* --- Адаптивность --- */
+        @media (max-width: 992px) {
+            .header { padding: 10px 15px; }
+            .logo { font-size: 1.8em; }
+            .header nav { gap: 20px; }
+            .page-container { margin: 25px auto; padding: 0 15px; }
+            h1 { font-size: 2.3em; margin-bottom: 25px; }
+            h1::after { width: 60px; height: 2px; }
+            .tournament-section { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; } /* Уменьшен отступ */
+            .tournament-card { height: 320px; padding: 20px; } /* Уменьшен padding */
+            .tournament-card-category { font-size: 1.6em; margin-bottom: 12px; } /* Уменьшен отступ */
+            .tournament-card-title { font-size: 1.05em; margin-bottom: 12px; } /* Уменьшен отступ */
+            .tournament-card-details p { font-size: 0.9em; margin-bottom: 6px; }
+        }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 10px; padding: 10px; }
+            .logo { font-size: 1.7em; margin-bottom: 5px; }
+            .header nav { margin-left: 0; justify-content: center; width: 100%; gap: 15px; }
+            .page-container { margin: 20px auto; }
+            h1 { font-size: 2em; margin-bottom: 20px; }
+            h1::after { width: 50px; height: 2px; }
+            .tournament-section { grid-template-columns: 1fr; gap: 15px; } /* Одна колонка на мобильных */
+            .tournament-card { height: auto; min-height: 280px; padding: 18px; } /* Высота авто, чтобы вмещать контент */
+            .tournament-card-category { font-size: 1.5em; margin-bottom: 10px; }
+            .tournament-card-title { font-size: 1em; margin-bottom: 10px; }
+            .tournament-card-details p { font-size: 0.9em; margin-bottom: 5px; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8em; }
+            .logo { font-size: 1.5em; }
+            .tournament-card { min-height: 250px; padding: 15px; }
+            .tournament-card-category { font-size: 1.3em; }
+            .tournament-card-title { font-size: 0.95em; }
+            .header nav { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Хедер -->
+    <div class="header">
+        <div class="logo">
+            <i class="fab fa-telegram logo-icon" aria-hidden="true"></i>
+            FS Aesthet
+        </div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="#">О нас</a>
+            <a href="#">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="page-container">
+        <h1>Турниры</h1>
+
+        <section class="tournament-section" id="tournament-list"></section>
+    </div>
+
+    <script>
+       // Данные о турнирах в формате JSON
+    const tournamentData = [
+        {
+            id: "jun1etap2526",
+            category: "ГРАН-ПРИ РОССИИ",
+            title: "\"ЛЁД МЕЧТЫ\" - 1 этап Юниорской серии",
+            location: "г. Москва, \"Навка Арена\"",
+            dates: "14 - 17 окт 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "magnitka2etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Юниоры)",
+            title: "\"ЗВЕЗДЫ МАГНИТКИ\" - 2 этап Юниорской серии",
+            location: "г. Магнитогорск, \"Арена Металлург\"",
+            dates: "22 - 24 октября 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "magnitka1etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Взрослые)",
+            title: "\"ЗВЕЗДЫ МАГНИТКИ\" - 1 этап серии",
+            location: "г. Магнитогорск, \"Арена Металлург\"",
+            dates: "24 - 26 октября 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "krasnoyarsk3etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Юниоры)",
+            title: "\"КРАСНОЯРЬЕ\" - 3 этап Юниорской серии",
+            location: "Красноярск, ЛД \"Кристалл\"",
+            dates: "30 окт. - 10 ноя. 2025 г.", // Турнир, переходящий через месяц
+            organizer: "ФФККР"
+        },
+        {
+            id: "krasnoyarsk2etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Взрослые)",
+            title: "\"КРАСНОЯРЬЕ\" - 2 этап серии",
+            location: "Красноярск, ЛД \"Кристалл\"",
+            dates: "01 - 04 ноя 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "idel4etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Юниоры)",
+            title: "\"Идель-2025\" - 4 этап Юниорской серии",
+            location: "Казань, Дворец спорта",
+            dates: "05 - 07 ноя 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "idel3etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Взрослые)",
+            title: "\"Идель-2025\" - 3 этап серии",
+            location: "Казань, Дворец спорта",
+            dates: "07 - 10 ноя 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "gorshkov5etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Юниоры)",
+            title: "\"Мемориал А.Г. Горшкова\" - 5 этап Юниорской серии",
+            location: "Москва, СК \"Мечта\"",
+            dates: "11 - 14 ноя 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "zolotoykon2025",
+            category: "ГРАН-ПРИ РОССИИ (Взрослые)",
+            title: "\"Золотой конек Москвы - 2025\" - 4 этап серии",
+            location: "Москва, ЦСКА Арена",
+            dates: "14 - 17 ноя 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "serdce_sibiri6etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Юниоры)",
+            title: "\"Сердце Сибири\" - 6 этап Юниорской серии",
+            location: "Омск, ЛА \"G-Drive Арена\"",
+            dates: "19 - 21 ноя 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "serdce_sibiri5etap2526",
+            category: "ГРАН-ПРИ РОССИИ (Взрослые)",
+            title: "\"Сердце Сибири\" - 5 этап серии",
+            location: "Омск, ЛА \"G-Drive Арена\"",
+            dates: "21 - 24 ноя 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "chempionat_rossii2026",
+            category: "ЧЕМПИОНАТ РОССИИ",
+            title: "Национальное первенство 2026 года",
+            location: "Санкт-Петербург, ДС \"Юбилейный\"",
+            dates: "17 - 22 дек 2025 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "owg2026",
+            category: "ОЛИМПИЙСКИЕ ИГРЫ",
+            title: "XXV Зимние Олимпийские Игры в Милане",
+            location: "Ледовая арена «Милано», Милан",
+            dates: "06 - 22 фев 2026 г.",
+            organizer: "ИСУ, МОК"
+        },
+        {
+            id: "pervenstvo_rossii_jun2026",
+            category: "ПЕРВЕНСТВО РОССИИ (Юниоры)",
+            title: "Национальное первенство среди юниоров 2026 года",
+            location: "Саранск, МФА \"Огарев-Арена\"",
+            dates: "04 - 08 февраля 2026 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "kubok_federacii_2026",
+            category: "ФИНАЛ ГРАН-ПРИ РОССИИ (Юниоры)",
+            title: "\"Кубок Федерации 2026\" - Финал Юниорской серии",
+            location: "Челябинск, ЛА \"Трактор\"",
+            dates: "04 - 06 марта 2026 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "final_gp_rossii2026",
+            category: "ФИНАЛ ГРАН-ПРИ РОССИИ (Взрослые)",
+            title: "Финал серии Гран-при России",
+            location: "Челябинск, ЛА \"Трактор\"",
+            dates: "06 - 09 марта 2026 г.",
+            organizer: "ФФККР"
+        },
+        {
+            id: "kubok_sodrughestva2026",
+            category: "МЕЖДУНАРОДНЫЕ",
+            title: "Кубок Содружества 2026",
+            location: "Республика Беларусь, г. Минск",
+            dates: "25 - 29 марта 2026 г.",
+            organizer: "ФФККР, БСК"
+        },
+        // --- Тестовый турнир для демонстрации актуальности ---
+        // Вы можете изменить его дату, чтобы проверить, как работает определение актуального турнира.
+        
+    ];
+
+       // --- Объект с ссылками на HTML файлы для каждого турнира ---
+        // Ключ: id турнира, Значение: путь к HTML файлу
+        const tournamentHtmlFiles = {
+            "jun1etap2526": "jun12526.html",
+            "magnitka2etap2526": "turn.html",
+            "magnitka1etap2526": "turn.html",
+            "krasnoyarsk3etap2526": "turn.html",
+            "krasnoyarsk2etap2526": "turn.html",
+            "idel4etap2526": "turn.html",
+            "idel3etap2526": "turn.html",
+            "gorshkov5etap2526": "turn.html",
+            "zolotoykon2025": "turn.html",
+            "serdce_sibiri6etap2526": "turn.html",
+            "serdce_sibiri5etap2526": "turn.html",
+            "chempionat_rossii2026": "turn.html",
+            "owg2026": "turn.html",
+            "pervenstvo_rossii_jun2026": "turn.html",
+            "kubok_federacii_2026": "turn.html",
+            "final_gp_rossii2026": "turn.html",
+            "kubok_sodrughestva2026": "turn.html",
+            "actual_test_tournament": "turn.html" // Для тестового турнира
+        };
+
+        // Карта месяцев для парсинга дат
+        const monthMap = {
+            'янв': 0, 'январь': 0,
+            'фев': 1, 'февраль': 1,
+            'мар': 2, 'март': 2,
+            'апр': 3, 'апрель': 3,
+            'май': 4,
+            'июн': 5, 'июнь': 5,
+            'июл': 6, 'июль': 6,
+            'авг': 7, 'август': 7,
+            'сен': 8, 'сентябрь': 8,
+            'окт': 9, 'октябрь': 9,
+            'ноя': 10, 'ноябрь': 10,
+            'дек': 11, 'декабрь': 11
+        };
+
+        // --- Функция для парсинга даты и определения, является ли турнир актуальным ---
+        function isTournamentCurrent(tournament) {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0); // Обнуляем время для сравнения по дням
+
+            // --- Регулярное выражение для парсинга дат ---
+            const datePattern = /(\d{1,2})(?:\s*[-\s]\s*(\d{1,2}))?\s*(?:([а-я]{3,})\.?\s*)?([а-я]{3,})\s+(\d{4})\s*г\./i;
+            const match = tournament.dates.match(datePattern);
+
+            if (!match) {
+                console.warn(`Не удалось распарсить дату для турнира ${tournament.id}: "${tournament.dates}"`);
+                return false;
+            }
+
+            const dayStart = parseInt(match[1], 10);
+            const dayEndInput = match[2]; // День окончания может быть undefined
+            const monthShort = match[3] ? match[3].toLowerCase() : null; // Сокращенный месяц (с точкой или без)
+            const monthFull = match[4].toLowerCase(); // Полный месяц
+            const year = parseInt(match[5], 10);
+
+            let monthKey = monthShort || monthFull;
+            if (monthKey && monthKey.endsWith('.')) {
+                monthKey = monthKey.slice(0, -1);
+            }
+
+            const month = monthMap[monthKey];
+
+            if (month === undefined) {
+                console.warn(`Неизвестное сокращение месяца "${monthKey}" для турнира ${tournament.id}: "${tournament.dates}"`);
+                return false;
+            }
+
+            let startDate = new Date(year, month, dayStart);
+            let endDate;
+
+            if (dayEndInput === undefined) {
+                // Турнир длится один день
+                endDate = new Date(year, month, dayStart);
+            } else {
+                const dayEnd = parseInt(dayEndInput, 10);
+
+                // Проверяем, переходит ли дата через месяц
+                if (dayEnd >= dayStart) {
+                    endDate = new Date(year, month, dayEnd);
+                } else {
+                    // Если день окончания меньше дня начала, значит, переход на следующий месяц/год
+                    let nextMonth = month + 1;
+                    let nextYear = year;
+                    if (nextMonth > 11) { // Если перешли за декабрь
+                        nextMonth = 0;
+                        nextYear++;
+                    }
+                    endDate = new Date(nextYear, nextMonth, dayEnd);
+                }
+            }
+
+            // Устанавливаем конец дня для endDate, чтобы включить весь последний день
+            endDate.setHours(23, 59, 59, 999);
+            startDate.setHours(0, 0, 0, 0); // Начало дня для startDate
+
+            // Сравниваем текущую дату с диапазоном турнира
+            return now >= startDate && now <= endDate;
+        }
+
+        // --- Вспомогательная функция для парсинга даты (для сортировки) ---
+        function parseDateStringToDate(dateString) {
+            const datePattern = /(\d{1,2})(?:\s*[-\s]\s*(\d{1,2}))?\s*(?:([а-я]{3,})\.?\s*)?([а-я]{3,})\s+(\d{4})\s*г\./i;
+            const match = dateString.match(datePattern);
+
+            if (!match) return null;
+
+            const dayStart = parseInt(match[1], 10);
+            const dayEndInput = match[2];
+            const monthShort = match[3] ? match[3].toLowerCase() : null;
+            const monthFull = match[4].toLowerCase();
+            const year = parseInt(match[5], 10);
+
+            let monthKey = monthShort || monthFull;
+            if (monthKey && monthKey.endsWith('.')) {
+                monthKey = monthKey.slice(0, -1);
+            }
+
+            const month = monthMap[monthKey];
+            if (month === undefined) return null;
+
+            let startDate = new Date(year, month, dayStart);
+            // Возвращаем дату начала турнира для сортировки
+            return startDate;
+        }
+
+
+        // --- Функция для генерации HTML карточки турнира ---
+        function createTournamentCard(tournament) {
+            const isCurrent = isTournamentCurrent(tournament);
+            const cardClass = `tournament-card ${isCurrent ? 'is-current' : ''}`;
+
+            // Получаем HTML файл для данного турнира
+            const htmlFile = tournamentHtmlFiles[tournament.id];
+
+            // Содержимое карточки
+            let cardContent = `
+                <div class="tournament-card-category">${tournament.category}</div>
+                <div class="tournament-card-title">${tournament.title}</div>
+                <div class="tournament-card-details">
+                    <p><span class="label">Место:</span> <span class="value">${tournament.location}</span></p>
+                    <p><span class="label">Даты:</span> <span class="value">${tournament.dates}</span></p>
+                    <p><span class="label">Орг.:</span> <span class="value">${tournament.organizer}</span></p>
+                </div>
+            `;
+
+            // Создаем карточку как div, а не a
+            const cardElement = document.createElement('div');
+            cardElement.className = cardClass;
+            cardElement.innerHTML = cardContent;
+
+            // Если HTML файл существует, добавляем слушатель событий на карточку
+            if (htmlFile) {
+                cardElement.addEventListener('click', () => {
+                    // Открываем HTML файл в новой вкладке
+                    window.open(htmlFile, '_blank');
+                });
+                // Добавляем эффект курсора, чтобы показать, что карточка кликабельна
+                cardElement.style.cursor = 'pointer';
+            } else {
+                // Если HTML файла нет, карточка просто отображается без возможности клика
+                console.warn(`HTML файл не найден для турнира: ${tournament.id}`);
+                cardElement.style.cursor = 'default'; // Убираем указатель клика
+            }
+
+            return cardElement; // Возвращаем DOM-элемент
+        }
+
+        // --- Функция для рендеринга всех турниров ---
+        function renderTournaments() {
+            const tournamentListElement = document.getElementById('tournament-list');
+            if (!tournamentListElement) return;
+
+            // Сортировка турниров: актуальные в начале, затем остальные по дате
+            tournamentData.sort((a, b) => {
+                const aIsCurrent = isTournamentCurrent(a);
+                const bIsCurrent = isTournamentCurrent(b);
+
+                if (aIsCurrent && !bIsCurrent) return -1; // a идет первым
+                if (!aIsCurrent && bIsCurrent) return 1;  // b идет первым
+
+                // Если оба актуальны или оба неактуальны, сортируем по дате начала (ближайшая первая)
+                const dateA = parseDateStringToDate(a.dates);
+                const dateB = parseDateStringToDate(b.dates);
+
+                if (dateA && dateB) return dateA - dateB;
+                if (dateA) return -1; // a идет первым, если b не распарсился
+                if (dateB) return 1;  // b идет первым, если a не распарсился
+                return 0; // Порядок не имеет значения, если даты некорректны
+            });
+
+            // Очищаем список перед добавлением новых элементов
+            tournamentListElement.innerHTML = '';
+
+            tournamentData.forEach(tournament => {
+                const cardElement = createTournamentCard(tournament);
+                if (cardElement) { // Добавляем только если карточка была создана
+                    tournamentListElement.appendChild(cardElement);
+                }
+            });
+        }
+
+        // Вызываем функцию рендеринга при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTournaments();
+        });
+    </script>
+</body>
+</html>
+
+    </script>
+</body>
+</html>
