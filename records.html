@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекорды мира - FS Aesthet</title>
+    
+    <!-- Google Fonts: Inter, Roboto Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --tg-bg-primary: #f0f2f5;
+            --tg-text-primary: #000000;
+            --tg-text-secondary: #8e8e93;
+            --tg-accent-blue: #007AFF;
+            --tg-accent-blue-hover: #005EC4;
+            --tg-header-bg: #ffffff;
+            --tg-header-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+            --tg-pattern-opacity: 0.05;
+            --tg-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f7f9 100%);
+            --tg-card-border: #dcdcdc;
+            --tg-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --tg-card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --tg-card-text-category: #555555;
+            --tg-card-text-title: #1c1c1e;
+            --tg-card-text-label: #666666;
+            --tg-card-text-value: #1c1c1e;
+            --transition-speed: 0.3s ease;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--tg-bg-primary);
+            color: var(--tg-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-weight: 400;
+        }
+
+        .header {
+            background: var(--tg-header-bg);
+            padding: 12px 20px;
+            box-shadow: var(--tg-header-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header .logo {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 1.5em;
+            color: var(--tg-accent-blue);
+            margin: 0 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+        }
+        .header .logo-icon { font-size: 1.1em; margin-right: 8px; color: var(--tg-accent-blue); }
+        .header nav { display: flex; gap: 25px; margin-left: auto; }
+        .header a {
+            color: var(--tg-text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05em;
+            transition: color var(--transition-speed);
+            position: relative;
+        }
+        .header a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--tg-accent-blue);
+            transition: width var(--transition-speed);
+        }
+        .header a:hover { color: var(--tg-accent-blue-hover); }
+        .header a:hover::after { width: 100%; }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-title {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--tg-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2em;
+            color: var(--tg-text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .discipline-section {
+            margin-bottom: 50px;
+        }
+
+        .discipline-title {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--tg-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+        }
+        .discipline-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--tg-accent-blue);
+            border-radius: 2px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .program-card {
+            background: var(--tg-card-bg);
+            border: 1px solid var(--tg-card-border);
+            border-radius: 15px;
+            box-shadow: var(--tg-card-shadow);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--tg-card-shadow-hover);
+        }
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02) 0px, rgba(0, 0, 0, 0.02) 2px, transparent 2px, transparent 4px);
+            opacity: var(--tg-pattern-opacity);
+            pointer-events: none;
+            border-radius: 15px;
+        }
+
+        .program-header {
+            background: linear-gradient(135deg, var(--tg-accent-blue), #0056b3);
+            color: white;
+            padding: 20px 25px;
+            text-align: center;
+        }
+
+        .program-name {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .program-abbr {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .record-content {
+            padding: 25px;
+        }
+
+        .record-score {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--tg-accent-blue);
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: var(--tg-text-emboss-light);
+        }
+
+        .record-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .record-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+        .record-detail:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: var(--tg-text-secondary);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--tg-text-primary);
+            text-align: right;
+        }
+
+        .record-date {
+            text-align: center;
+            color: var(--tg-text-secondary);
+            font-size: 0.85em;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .medal-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+
+        .medal-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; }
+        .medal-silver { background: linear-gradient(135deg, #C0C0C0, #A0A0A0); color: #000; }
+        .medal-bronze { background: linear-gradient(135deg, #CD7F32, #A56C2B); color: #000; }
+
+        .footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--tg-text-secondary);
+            background: var(--tg-header-bg);
+            box-shadow: var(--tg-header-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.2em;
+            }
+            .discipline-title {
+                font-size: 1.6em;
+            }
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            .record-score {
+                font-size: 1.8em;
+            }
+            .program-header {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- JSON данные с рекордами мира -->
+    <script type="application/json" id="worldRecordsData">
+    {
+        "lastUpdated": "2024-12-01",
+        "disciplines": {
+            "menSingle": {
+                "name": "Мужское одиночное катание",
+                "programs": {
+                    "short": {
+                        "name": "Короткая программа",
+                        "abbr": "КП",
+                        "score": 113.97,
+                        "skater": "Нейтан Чен",
+                        "country": "США",
+                        "competition": "Олимпийские Игры - 2022",
+                        "date": "2022-02-08",
+                        "elements": "4F, 3A, 4Lz+3T"
+                    },
+                    "free": {
+                        "name": "Произвольная программа", 
+                        "abbr": "ПП",
+                        "score": 228.97,
+                        "skater": "Илья Малинин",
+                        "country": "США",
+                        "competition": "Гран при ISU - Skate Canada 2025",
+                        "date": "2025-11-02",
+                        "elements": "4F, 3A, 4Lz, 4Lo, 4Lz+1Eu+3F, 4T+3T , 4S+3A+SEQ"
+                    },
+                    "total": {
+                        "name": "Сумма баллов",
+                        "abbr": "ТОТ",
+                        "score": 335.30,
+                        "skater": "Нейтан Чен",
+                        "country": "США", 
+                        "competition": "Финал Гран-при ISU 2019/20",
+                        "date": "2019-12-07",
+                        "elements": "Рекорд суммы"
+                    }
+                }
+            },
+            "womenSingle": {
+                "name": "Женское одиночное катание",
+                "programs": {
+                    "short": {
+                        "name": "Короткая программа",
+                        "abbr": "КП", 
+                        "score": 87.42,
+                        "skater": "Камила Валиева",
+                        "country": "Россия",
+                        "competition": "Гран-при ISU - Ростелеком Cup 2021",
+                        "date": "2021-11-26",
+                        "elements": "3A, 3F, 3Lz+3T"
+                    },
+                    "free": {
+                        "name": "Произвольная программа",
+                        "abbr": "ПП",
+                        "score": 185.29,
+                        "skater": "Камила Валиева", 
+                        "country": "Россия",
+                        "competition": "Гран-при ISU - Ростелеком Cup 2021",
+                        "date": "2021-11-27",
+                        "elements": "4S, 3A, 4T+3T, 3Lo, 4T+1Eu+2S, 3F+3T, 3Lz"
+                    },
+                    "total": {
+                        "name": "Сумма баллов",
+                        "abbr": "ТОТ",
+                        "score": 272.71,
+                        "skater": "Камила Валиева",
+                        "country": "Россия",
+                        "competition": "Гран-при ISU - Ростелеком Cup 2021", 
+                        "date": "2021-11-27",
+                        "elements": "Рекорд суммы"
+                    }
+                }
+            },
+            "pairs": {
+                "name": "Парное катание",
+                "programs": {
+                    "short": {
+                        "name": "Короткая программа",
+                        "abbr": "КП",
+                        "score": 84.41,
+                        "skaters": "Sui Wenjing / Han Cong",
+                        "country": "Китай", 
+                        "competition": "Олимпийские игры - 2022",
+                        "date": "",
+                        "elements": ""
+                    },
+                    "free": {
+                        "name": "Произвольная программа",
+                        "abbr": "ПП", 
+                        "score": 157.46,
+                        "skaters": "Анастасия Мишина / Александр Галлямов",
+                        "country": "Россия",
+                        "competition": "Чемпионат Европы 2022",
+                        "date": "",
+                        "elements": ""
+                    },
+                    "total": {
+                        "name": "Сумма баллов",
+                        "abbr": "ТОТ",
+                        "score": 239.82,
+                        "skaters": "Анастасия Мишина / Александр Галлямов",
+                        "country": "Россия",
+                        "competition": "Чемпионат Европы 2022",
+                        "date": "",
+                        "elements": "Рекорд суммы"
+                    }
+                }
+            },
+            "iceDance": {
+                "name": "Танцы на льду", 
+                "programs": {
+                    "rhythm": {
+                        "name": "Ритм-танец",
+                        "abbr": "РТ",
+                        "score": 90.83,
+                        "skaters": "Gabriella Papadakis / Guillaume Cizeron",
+                        "country": "Франция",
+                        "competition": "Олимпийские игры - 2022",
+                        "date": "",
+                        "elements": ""
+                    },
+                    "free": {
+                        "name": "Произвольный танец", 
+                        "abbr": "ПТ",
+                        "score": 136.58,
+                        "skaters": "Gabriella Papadakis / Guillaume Cizeron",
+                        "country": "Франция",
+                        "competition": "Гран-при ISU - NHK Trophy 2019",
+                        "date": "",
+                        "elements": ""
+                    },
+                    "total": {
+                        "name": "Сумма баллов",
+                        "abbr": "ТОТ", 
+                        "score": 226.61,
+                        "skaters": "Gabriella Papadakis / Guillaume Cizeron",
+                        "country": "Франция",
+                        "competition": "Гран-при ISU - NHK Trophy 2019",
+                        "date": "",
+                        "elements": "Рекорд суммы"
+                    }
+                }
+            }
+        }
+    }
+    </script>
+
+    <div class="header">
+        <div class="logo">
+            <i class="fab fa-telegram logo-icon" aria-hidden="true"></i>
+            FS Aesthet
+        </div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="athletes.html">Спортсмены</a>
+            <a href="records.html" class="active">Рекорды</a>
+            <a href="#">Контакты</a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <h1 class="page-title">Рекорды мира</h1>
+        <div class="page-subtitle">Актуальные рекорды ISU по фигурному катанию</div>
+
+        <!-- Мужское одиночное катание -->
+        <section class="discipline-section" id="men-single">
+            <h2 class="discipline-title">Мужское одиночное катание</h2>
+            <div class="programs-grid" id="menPrograms">
+                <!-- Заполняется через JavaScript -->
+            </div>
+        </section>
+
+        <!-- Женское одиночное катание -->
+        <section class="discipline-section" id="women-single">
+            <h2 class="discipline-title">Женское одиночное катание</h2>
+            <div class="programs-grid" id="womenPrograms">
+                <!-- Заполняется через JavaScript -->
+            </div>
+        </section>
+
+        <!-- Парное катание -->
+        <section class="discipline-section" id="pairs">
+            <h2 class="discipline-title">Парное катание</h2>
+            <div class="programs-grid" id="pairsPrograms">
+                <!-- Заполняется через JavaScript -->
+            </div>
+        </section>
+
+        <!-- Танцы на льду -->
+        <section class="discipline-section" id="ice-dance">
+            <h2 class="discipline-title">Танцы на льду</h2>
+            <div class="programs-grid" id="iceDancePrograms">
+                <!-- Заполняется через JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        © 2025 FS Aesthet. Все права защищены.
+    </footer>
+
+    <script>
+        // Получаем JSON данные
+        const recordsData = JSON.parse(document.getElementById('worldRecordsData').textContent);
+        
+        // Функция для создания карточки программы
+        function createProgramCard(programData, programKey) {
+            const card = document.createElement('div');
+            card.className = 'program-card';
+            
+            const isPairsOrDance = programKey === 'pairs' || programKey === 'iceDance';
+            const skaterName = isPairsOrDance ? programData.skaters : programData.skater;
+            
+            card.innerHTML = `
+                <div class="program-header">
+                    <h3 class="program-name">${programData.name}</h3>
+                    <div class="program-abbr">${programData.abbr}</div>
+                </div>
+                <div class="record-content">
+                    <div class="record-score">${programData.score}</div>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <span class="detail-label">Фигурист${isPairsOrDance ? 'ы' : ''}</span>
+                            <span class="detail-value">${skaterName}</span>
+                        </div>
+                        <div class="record-detail">
+                            <span class="detail-label">Страна</span>
+                            <span class="detail-value">${programData.country}</span>
+                        </div>
+                        <div class="record-detail">
+                            <span class="detail-label">Соревнование</span>
+                            <span class="detail-value">${programData.competition}</span>
+                        </div>
+                        <div class="record-detail">
+                            <span class="detail-label">Элементы</span>
+                            <span class="detail-value">${programData.elements}</span>
+                        </div>
+                    </div>
+                    <div class="record-date">${formatDate(programData.date)}</div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Заполняем страницу данными
+        function populateRecords() {
+            const disciplines = recordsData.disciplines;
+            
+            // Мужское одиночное
+            const menPrograms = document.getElementById('menPrograms');
+            Object.values(disciplines.menSingle.programs).forEach(program => {
+                menPrograms.appendChild(createProgramCard(program, 'menSingle'));
+            });
+            
+            // Женское одиночное
+            const womenPrograms = document.getElementById('womenPrograms');
+            Object.values(disciplines.womenSingle.programs).forEach(program => {
+                womenPrograms.appendChild(createProgramCard(program, 'womenSingle'));
+            });
+            
+            // Парное катание
+            const pairsPrograms = document.getElementById('pairsPrograms');
+            Object.values(disciplines.pairs.programs).forEach(program => {
+                pairsPrograms.appendChild(createProgramCard(program, 'pairs'));
+            });
+            
+            // Танцы на льду
+            const iceDancePrograms = document.getElementById('iceDancePrograms');
+            Object.values(disciplines.iceDance.programs).forEach(program => {
+                iceDancePrograms.appendChild(createProgramCard(program, 'iceDance'));
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', populateRecords);
+    </script>
+</body>
+</html>

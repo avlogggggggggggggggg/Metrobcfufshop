@@ -1,0 +1,66 @@
+[
+  {
+    "rank": 1,
+    "name": "Лидия",
+    "surname": "ПЛЕСКАЧЁВА",
+    "location": "Москва, МАФКК - школа \"Легенда\", отд.\"Снежные барсы\"",
+    "region": "МОС",
+    "startNumber": 17,
+    "totalScore": 68.15,
+    "technicalScore": 38.09,
+    "componentScore": 30.06,
+    "deductions": 0.0,
+    "elements": [
+      {
+        "number": 1,
+        "name": "2A",
+        "bv": 3.3,
+        "goe": 0.99,
+        "total": 4.29
+      },
+      {
+        "number": 2,
+        "name": "3Lo",
+        "bv": 4.9,
+        "goe": 1.27,
+        "total": 6.17
+      },
+      {
+        "number": 3,
+        "name": "FSSp4",
+        "bv": 3.0,
+        "goe": 0.9,
+        "total": 3.9
+      },
+      {
+        "number": 4,
+        "name": "3Lz+3T",
+        "bv": 11.11,
+        "goe": 1.18,
+        "total": 12.29
+      },
+      {
+        "number": 5,
+        "name": "LSp4",
+        "bv": 2.7,
+        "goe": 0.81,
+        "total": 3.51
+      },
+      {
+        "number": 6,
+        "name": "StSq3",
+        "bv": 3.3,
+        "goe": 0.99,
+        "total": 4.29
+      },
+      {
+        "number": 7,
+        "name": "CCoSp4",
+        "bv": 3.5,
+        "goe": 0.14,
+        "total": 3.64
+      }
+    ],
+    "baseTechnicalScore": 31.81
+  }
+]
