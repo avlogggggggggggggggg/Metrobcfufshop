@@ -25,6 +25,9 @@
             --tg-card-border: #dcdcdc;
             --tg-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --tg-player-bg: #000000;
+            --tg-controls-bg: rgba(0, 0, 0, 0.8);
+            --tg-progress-bg: rgba(255, 255, 255, 0.3);
+            --tg-progress-filled: #007AFF;
             --transition-speed: 0.3s ease;
         }
 
@@ -126,12 +129,183 @@
             overflow: hidden;
             background: var(--tg-player-bg);
             aspect-ratio: 16/9;
+            cursor: pointer;
         }
 
         #videoPlayer {
             width: 100%;
             height: 100%;
             border-radius: 12px;
+            display: block;
+        }
+
+        /* Кастомные контролы */
+        .custom-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, var(--tg-controls-bg));
+            padding: 20px 15px 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+            z-index: 20;
+        }
+
+        .player-wrapper:hover .custom-controls,
+        .player-wrapper.controls-visible .custom-controls {
+            opacity: 1;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .progress-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--tg-progress-bg);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+            transition: height 0.2s ease;
+        }
+
+        .progress-bar:hover {
+            height: 6px;
+        }
+
+        .progress-filled {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--tg-progress-filled);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .progress-handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar:hover .progress-handle {
+            opacity: 1;
+        }
+
+        .time-display {
+            color: white;
+            font-size: 0.9em;
+            font-weight: 500;
+            min-width: 100px;
+            text-align: center;
+            font-feature-settings: "tnum";
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: var(--tg-progress-bg);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+            transition: width 0.3s ease;
+            overflow: hidden;
+        }
+
+        .volume-level {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--tg-progress-filled);
+            border-radius: 2px;
+            width: 100%;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-container:hover .volume-slider {
+            width: 80px;
+        }
+
+        .big-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 122, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            z-index: 15;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .big-play-button:hover {
+            background: var(--tg-accent-blue);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .big-play-button:active {
+            transform: translate(-50%, -50%) scale(0.95);
         }
 
         .loading-overlay {
@@ -147,6 +321,7 @@
             align-items: center;
             color: white;
             z-index: 10;
+            border-radius: 12px;
         }
 
         .loading-spinner {
@@ -217,6 +392,36 @@
             margin-top: auto;
         }
 
+        .quality-selector {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 25;
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+        }
+
+        .player-wrapper:hover .quality-selector {
+            opacity: 1;
+        }
+
+        .quality-btn {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: white;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            backdrop-filter: blur(10px);
+        }
+
+        .quality-btn:hover {
+            background: var(--tg-accent-blue);
+            border-color: var(--tg-accent-blue);
+        }
+
         @media (max-width: 768px) {
             .page-title {
                 font-size: 2em;
@@ -224,6 +429,31 @@
             .main-content {
                 padding: 20px 15px;
             }
+            .custom-controls {
+                padding: 15px 10px 8px;
+            }
+            .time-display {
+                min-width: 80px;
+                font-size: 0.8em;
+            }
+            .volume-slider {
+                width: 60px;
+            }
+            .big-play-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .player-wrapper {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
@@ -246,19 +476,55 @@
         <div class="page-subtitle">Гран-при России - Этап 1 • Москва, ЛД "Мегаспорт"</div>
 
         <div class="player-container">
-            <div class="player-wrapper">
+            <div class="player-wrapper" id="playerWrapper">
+                <div class="quality-selector">
+                    <button class="quality-btn">
+                        <i class="fas fa-hd"></i> 1080p
+                    </button>
+                </div>
+
                 <div id="loadingOverlay" class="loading-overlay">
                     <div class="loading-spinner"></div>
                     <div>Подключение к трансляции...</div>
                 </div>
+                
+                <button class="big-play-button" id="bigPlayButton">
+                    <i class="fas fa-play"></i>
+                </button>
+                
                 <video 
                     id="videoPlayer"
-                    controls
                     playsinline
                     poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%23007AFF' opacity='0.1'/%3E%3Ccircle cx='400' cy='225' r='40' fill='%23007AFF' opacity='0.3'/%3E%3Cpath d='M380 205 L420 225 L380 245 Z' fill='%23007AFF'/%3E%3Ctext x='400' y='300' text-anchor='middle' font-family='Arial' font-size='18' fill='%23007AFF'%3EFS Aesthet LIVE%3C/text%3E%3C/svg%3E"
-                >
-                    Ваш браузер не поддерживает видео тег.
-                </video>
+                ></video>
+                
+                <div class="custom-controls">
+                    <button class="control-btn" id="playPauseBtn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    
+                    <div class="progress-container">
+                        <div class="time-display" id="currentTime">00:00</div>
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress-filled" id="progressFilled"></div>
+                            <div class="progress-handle" id="progressHandle"></div>
+                        </div>
+                        <div class="time-display" id="durationTime">00:00</div>
+                    </div>
+                    
+                    <div class="volume-container">
+                        <button class="control-btn" id="volumeBtn">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <div class="volume-slider" id="volumeSlider">
+                            <div class="volume-level" id="volumeLevel"></div>
+                        </div>
+                    </div>
+                    
+                    <button class="control-btn" id="fullscreenBtn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -296,88 +562,192 @@
 
     <script>
         const video = document.getElementById('videoPlayer');
+        const playerWrapper = document.getElementById('playerWrapper');
+        const bigPlayButton = document.getElementById('bigPlayButton');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFilled = document.getElementById('progressFilled');
+        const progressHandle = document.getElementById('progressHandle');
+        const currentTime = document.getElementById('currentTime');
+        const durationTime = document.getElementById('durationTime');
+        const volumeBtn = document.getElementById('volumeBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeLevel = document.getElementById('volumeLevel');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
         const loadingOverlay = document.getElementById('loadingOverlay');
+
+        let isDragging = false;
+        let wasPlaying = false;
 
         // Прямой HLS поток
         const HLS_STREAM_URL = 'https://river-1.rutube.ru/stream/genetta-324.m9.rutube.ru/rqJ1a6RhzesWcAF6VHRffQ/1764177427/7bf12d9c050f9a7ef3728db5730432ae/1080p_stream.m3u8';
 
+        // Форматирование времени
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Обновление прогресса
+        function updateProgress() {
+            if (!isDragging && video.duration) {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressFilled.style.width = percent + '%';
+                progressHandle.style.left = percent + '%';
+                currentTime.textContent = formatTime(video.currentTime);
+            }
+        }
+
+        // Перемотка
+        function seek(e) {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            video.currentTime = percent * video.duration;
+        }
+
+        // Управление громкостью
+        function setVolume(e) {
+            const rect = volumeSlider.getBoundingClientRect();
+            let percent = (e.clientX - rect.left) / rect.width;
+            percent = Math.max(0, Math.min(1, percent));
+            
+            video.volume = percent;
+            volumeLevel.style.width = (percent * 100) + '%';
+            updateVolumeIcon();
+        }
+
+        function updateVolumeIcon() {
+            const icon = volumeBtn.querySelector('i');
+            if (video.volume === 0 || video.muted) {
+                icon.className = 'fas fa-volume-mute';
+            } else if (video.volume < 0.5) {
+                icon.className = 'fas fa-volume-down';
+            } else {
+                icon.className = 'fas fa-volume-up';
+            }
+        }
+
+        // Полноэкранный режим
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                playerWrapper.requestFullscreen().catch(err => {
+                    console.log('Ошибка полноэкранного режима:', err);
+                });
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+            } else {
+                document.exitFullscreen();
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+            }
+        }
+
+        // События
+        bigPlayButton.addEventListener('click', () => {
+            video.play();
+            bigPlayButton.style.display = 'none';
+            playerWrapper.classList.add('controls-visible');
+        });
+
+        playPauseBtn.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                video.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+
+        video.addEventListener('play', () => {
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            bigPlayButton.style.display = 'none';
+        });
+
+        video.addEventListener('pause', () => {
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            if (video.currentTime === 0) {
+                bigPlayButton.style.display = 'flex';
+            }
+        });
+
+        video.addEventListener('timeupdate', updateProgress);
+        video.addEventListener('loadedmetadata', () => {
+            durationTime.textContent = formatTime(video.duration);
+        });
+
+        video.addEventListener('canplay', () => {
+            loadingOverlay.style.display = 'none';
+        });
+
+        video.addEventListener('waiting', () => {
+            loadingOverlay.style.display = 'flex';
+        });
+
+        video.addEventListener('playing', () => {
+            loadingOverlay.style.display = 'none';
+        });
+
+        video.addEventListener('error', (e) => {
+            console.error('Ошибка видео:', e);
+            handleStreamError();
+        });
+
+        // Прогресс бар
+        progressBar.addEventListener('click', seek);
+
+        progressBar.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            wasPlaying = !video.paused;
+            video.pause();
+            seek(e);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                seek(e);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                if (wasPlaying) {
+                    video.play();
+                }
+            }
+        });
+
+        // Громкость
+        volumeSlider.addEventListener('click', setVolume);
+        
+        volumeBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            updateVolumeIcon();
+        });
+
+        // Полноэкранный режим
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+            }
+        });
+
+        // Инициализация плеера
         function initPlayer() {
-            // Пробуем напрямую в video элемент (для Safari)
             if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 console.log('Используется нативная поддержка HLS');
                 video.src = HLS_STREAM_URL;
-                
-                video.addEventListener('loadeddata', function() {
-                    console.log('Видео загружено');
-                    loadingOverlay.style.display = 'none';
-                });
-
-                video.addEventListener('error', function(e) {
-                    console.error('Ошибка видео:', e);
-                    handleStreamError();
-                });
-
             } else {
-                // Пробуем MediaSource Extensions
-                tryDirectPlay();
-            }
-        }
-
-        function tryDirectPlay() {
-            console.log('Попытка прямого воспроизведения...');
-            
-            // Создаем объект для отслеживания состояния
-            const sourceBuffer = null;
-            
-            // Пробуем установить источник
-            video.src = HLS_STREAM_URL;
-            
-            const playPromise = video.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    console.log('Автовоспроизведение началось');
-                    loadingOverlay.style.display = 'none';
-                }).catch(error => {
-                    console.log('Автовоспроизведение заблокировано, требуется клик');
-                    loadingOverlay.innerHTML = `
-                        <div style="text-align: center;">
-                            <i class="fas fa-play-circle" style="font-size: 3em; margin-bottom: 15px;"></i>
-                            <div>Нажмите для начала трансляции</div>
-                            <button onclick="startPlayback()" style="margin-top: 15px; padding: 10px 20px; background: var(--tg-accent-blue); color: white; border: none; border-radius: 6px; cursor: pointer;">
-                                Начать просмотр
-                            </button>
-                        </div>
-                    `;
-                });
+                console.log('Прямое воспроизведение HLS');
+                video.src = HLS_STREAM_URL;
             }
 
-            video.addEventListener('loadeddata', function() {
-                console.log('Данные видео загружены');
-                loadingOverlay.style.display = 'none';
-            });
-
-            video.addEventListener('waiting', function() {
-                loadingOverlay.style.display = 'flex';
-            });
-
-            video.addEventListener('playing', function() {
-                loadingOverlay.style.display = 'none';
-            });
-
-            video.addEventListener('error', function(e) {
-                console.error('Ошибка воспроизведения:', e);
-                handleStreamError();
-            });
-        }
-
-        function startPlayback() {
-            video.play().then(() => {
-                loadingOverlay.style.display = 'none';
-            }).catch(error => {
-                console.error('Ошибка воспроизведения:', error);
-                handleStreamError();
-            });
+            // Устанавливаем начальную громкость
+            video.volume = 1;
+            volumeLevel.style.width = '100%';
+            updateVolumeIcon();
         }
 
         function handleStreamError() {
@@ -407,13 +777,6 @@
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             initPlayer();
-        });
-
-        // Обработка видимости страницы
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden && video.paused && video.currentTime > 0) {
-                video.play().catch(e => console.log('Автовоспроизведение заблокировано'));
-            }
         });
     </script>
 </body>
