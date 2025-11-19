@@ -160,6 +160,18 @@
             opacity: 1;
         }
 
+        /* Всегда показывать контролы на мобильных */
+        @media (max-width: 768px) {
+            .custom-controls {
+                opacity: 1 !important;
+                background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            }
+            
+            .player-wrapper {
+                cursor: default;
+            }
+        }
+
         .control-btn {
             background: none;
             border: none;
@@ -422,6 +434,7 @@
             border-color: var(--tg-accent-blue);
         }
 
+        /* Мобильные стили */
         @media (max-width: 768px) {
             .page-title {
                 font-size: 2em;
@@ -431,6 +444,7 @@
             }
             .custom-controls {
                 padding: 15px 10px 8px;
+                opacity: 1 !important;
             }
             .time-display {
                 min-width: 80px;
@@ -444,6 +458,24 @@
                 height: 60px;
                 font-size: 1.5em;
             }
+            
+            /* Всегда показывать кнопку полноэкранного режима на мобильных */
+            .fullscreen-btn {
+                display: flex !important;
+            }
+            
+            /* Увеличить зону клика для мобильных */
+            .control-btn {
+                min-width: 44px;
+                min-height: 44px;
+            }
+            
+            /* Скрыть регулятор громкости на очень маленьких экранах */
+            @media (max-width: 480px) {
+                .volume-slider {
+                    display: none;
+                }
+            }
         }
 
         /* Анимации */
@@ -454,6 +486,54 @@
 
         .player-wrapper {
             animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Дополнительная кнопка полноэкранного режима для мобильных */
+        .mobile-fullscreen-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 25;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-fullscreen-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Индикатор ориентации для мобильных */
+        .orientation-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            z-index: 30;
+            display: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .orientation-hint i {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
         }
     </style>
 </head>
@@ -477,10 +557,22 @@
 
         <div class="player-container">
             <div class="player-wrapper" id="playerWrapper">
+                <!-- Дополнительная кнопка полноэкранного режима для мобильных -->
+                <button class="mobile-fullscreen-btn" id="mobileFullscreenBtn">
+                    <i class="fas fa-expand"></i>
+                </button>
+
                 <div class="quality-selector">
                     <button class="quality-btn">
                         <i class="fas fa-hd"></i> 1080p
                     </button>
+                </div>
+
+                <!-- Подсказка об ориентации -->
+                <div class="orientation-hint" id="orientationHint">
+                    <i class="fas fa-rotate-right"></i>
+                    <div>Поверните устройство</div>
+                    <div>для лучшего просмотра</div>
                 </div>
 
                 <div id="loadingOverlay" class="loading-overlay">
@@ -521,7 +613,7 @@
                         </div>
                     </div>
                     
-                    <button class="control-btn" id="fullscreenBtn">
+                    <button class="control-btn fullscreen-btn" id="fullscreenBtn">
                         <i class="fas fa-expand"></i>
                     </button>
                 </div>
@@ -574,10 +666,13 @@
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeLevel = document.getElementById('volumeLevel');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const mobileFullscreenBtn = document.getElementById('mobileFullscreenBtn');
         const loadingOverlay = document.getElementById('loadingOverlay');
+        const orientationHint = document.getElementById('orientationHint');
 
         let isDragging = false;
         let wasPlaying = false;
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
         // Прямой HLS поток
         const HLS_STREAM_URL = 'https://river-1.rutube.ru/stream/genetta-324.m9.rutube.ru/rqJ1a6RhzesWcAF6VHRffQ/1764177427/7bf12d9c050f9a7ef3728db5730432ae/1080p_stream.m3u8';
@@ -631,13 +726,47 @@
         // Полноэкранный режим
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
-                playerWrapper.requestFullscreen().catch(err => {
-                    console.log('Ошибка полноэкранного режима:', err);
-                });
-                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                if (playerWrapper.requestFullscreen) {
+                    playerWrapper.requestFullscreen();
+                } else if (playerWrapper.webkitRequestFullscreen) {
+                    playerWrapper.webkitRequestFullscreen();
+                } else if (playerWrapper.msRequestFullscreen) {
+                    playerWrapper.msRequestFullscreen();
+                }
             } else {
-                document.exitFullscreen();
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenIcon() {
+            const isFullscreen = document.fullscreenElement;
+            const icon = fullscreenBtn.querySelector('i');
+            const mobileIcon = mobileFullscreenBtn.querySelector('i');
+            
+            if (isFullscreen) {
+                icon.className = 'fas fa-compress';
+                mobileIcon.className = 'fas fa-compress';
+            } else {
+                icon.className = 'fas fa-expand';
+                mobileIcon.className = 'fas fa-expand';
+            }
+        }
+
+        // Проверка ориентации
+        function checkOrientation() {
+            if (isMobile) {
+                const isPortrait = window.innerHeight > window.innerWidth;
+                if (isPortrait && !document.fullscreenElement) {
+                    orientationHint.style.display = 'block';
+                } else {
+                    orientationHint.style.display = 'none';
+                }
             }
         }
 
@@ -646,6 +775,13 @@
             video.play();
             bigPlayButton.style.display = 'none';
             playerWrapper.classList.add('controls-visible');
+        });
+
+        // Двойной тап для полноэкранного режима на мобильных
+        playerWrapper.addEventListener('dblclick', () => {
+            if (isMobile) {
+                toggleFullscreen();
+            }
         });
 
         playPauseBtn.addEventListener('click', () => {
@@ -727,12 +863,15 @@
 
         // Полноэкранный режим
         fullscreenBtn.addEventListener('click', toggleFullscreen);
+        mobileFullscreenBtn.addEventListener('click', toggleFullscreen);
 
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-            }
-        });
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+        document.addEventListener('msfullscreenchange', updateFullscreenIcon);
+
+        // Ориентация
+        window.addEventListener('resize', checkOrientation);
+        window.addEventListener('orientationchange', checkOrientation);
 
         // Инициализация плеера
         function initPlayer() {
@@ -748,6 +887,9 @@
             video.volume = 1;
             volumeLevel.style.width = '100%';
             updateVolumeIcon();
+            
+            // Проверяем ориентацию при загрузке
+            checkOrientation();
         }
 
         function handleStreamError() {
