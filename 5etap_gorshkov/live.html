@@ -353,6 +353,37 @@
             border-color: var(--tg-accent-blue);
         }
 
+        .proxy-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .proxy-btn {
+            background: var(--tg-card-bg);
+            border: 1px solid var(--tg-card-border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: var(--tg-text-primary);
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .proxy-btn:hover {
+            background: var(--tg-accent-blue);
+            color: white;
+            border-color: var(--tg-accent-blue);
+        }
+
+        .proxy-btn.active {
+            background: var(--tg-accent-blue);
+            color: white;
+            border-color: var(--tg-accent-blue);
+        }
+
         .footer {
             margin-top: auto;
             padding: 20px;
@@ -471,7 +502,7 @@
             <div class="player-wrapper">
                 <div id="loadingOverlay" class="loading-overlay">
                     <div class="loading-spinner"></div>
-                    <div>Загрузка трансляции...</div>
+                    <div id="loadingText">Загрузка трансляции через прокси...</div>
                 </div>
                 
                 <button class="play-btn" id="playButton" style="display: none;">
@@ -512,6 +543,13 @@
                 <button class="quality-btn" data-quality="480p">480p</button>
                 <button class="quality-btn" data-quality="360p">360p</button>
             </div>
+
+            <div class="proxy-selector">
+                <button class="proxy-btn active" data-proxy="allorigins">AllOrigins</button>
+                <button class="proxy-btn" data-proxy="corsanywhere">CORS Anywhere</button>
+                <button class="proxy-btn" data-proxy="thingproxy">ThingProxy</button>
+                <button class="proxy-btn" data-proxy="direct">Прямое соединение</button>
+            </div>
         </div>
 
         <div class="stream-info">
@@ -546,8 +584,8 @@
                     </div>
                 </div>
                 <div class="info-item">
-                    <div class="info-label">Формат</div>
-                    <div class="info-value">HLS Stream (m3u8)</div>
+                    <div class="info-label">Прокси</div>
+                    <div class="info-value" id="proxyStatus">AllOrigins (активно)</div>
                 </div>
             </div>
         </div>
@@ -570,9 +608,20 @@
         const volumeLevel = document.getElementById('volumeLevel');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        const proxyStatus = document.getElementById('proxyStatus');
 
         let hls;
         let isSeeking = false;
+        let currentProxy = 'allorigins';
+
+        // Прокси серверы
+        const proxies = {
+            allorigins: 'https://api.allorigins.win/raw?url=',
+            corsanywhere: 'https://cors-anywhere.herokuapp.com/',
+            thingproxy: 'https://thingproxy.freeboard.io/fetch/',
+            direct: ''
+        };
 
         // HLS потоки
         const hlsStreams = {
@@ -582,13 +631,29 @@
             '360p': 'https://river-1.rutube.ru/stream/genetta-324.m9.rutube.ru/rqJ1a6RhzesWcAF6VHRffQ/1764177427/7bf12d9c050f9a7ef3728db5730432ae/360p_stream.m3u8'
         };
 
-        // Проверка поддержки HLS
+        // Функция для получения URL через прокси
+        function getProxiedUrl(url, proxyType) {
+            if (proxyType === 'direct') {
+                return url;
+            }
+            return proxies[proxyType] + encodeURIComponent(url);
+        }
+
+        // Инициализация HLS
         function initHLS() {
             if (Hls.isSupported()) {
                 hls = new Hls({
                     enableWorker: true,
                     lowLatencyMode: true,
-                    backBufferLength: 90
+                    backBufferLength: 90,
+                    debug: false,
+                    xhrSetup: function(xhr, url) {
+                        // Для сегментов тоже используем прокси
+                        if (currentProxy !== 'direct') {
+                            const proxiedUrl = getProxiedUrl(url, currentProxy);
+                            xhr.open('GET', proxiedUrl, true);
+                        }
+                    }
                 });
                 
                 hls.on(Hls.Events.MEDIA_ATTACHED, function() {
@@ -596,9 +661,10 @@
                 });
                 
                 hls.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
-                    console.log('Манифест загружен, найдено ' + data.levels.length + ' качеств');
+                    console.log('Манифест загружен через прокси', currentProxy);
                     loadingOverlay.style.display = 'none';
                     playButton.style.display = 'block';
+                    video.play().catch(e => console.log('Автовоспроизведение заблокировано'));
                 });
                 
                 hls.on(Hls.Events.ERROR, function(event, data) {
@@ -606,8 +672,8 @@
                     if (data.fatal) {
                         switch(data.type) {
                             case Hls.ErrorTypes.NETWORK_ERROR:
-                                console.log('Ошибка сети, попытка переподключения...');
-                                hls.startLoad();
+                                console.log('Ошибка сети, пробуем другой прокси...');
+                                tryNextProxy();
                                 break;
                             case Hls.ErrorTypes.MEDIA_ERROR:
                                 console.log('Ошибка медиа, перезагрузка...');
@@ -615,21 +681,16 @@
                                 break;
                             default:
                                 console.log('Неисправимая ошибка');
-                                showError('Ошибка загрузки трансляции');
+                                showError('Не удалось загрузить трансляцию');
                                 break;
                         }
                     }
                 });
                 
-                hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
-                    console.log('Качество загружено:', data.details);
-                });
-                
-                // Прикрепляем HLS к видео элементу
                 hls.attachMedia(video);
                 
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                // Поддержка HLS нативно (Safari)
+                // Нативная поддержка HLS (Safari)
                 console.log('Нативная поддержка HLS');
                 video.addEventListener('loadedmetadata', function() {
                     loadingOverlay.style.display = 'none';
@@ -642,44 +703,73 @@
 
         // Загрузка потока
         function loadStream(quality) {
-            const streamUrl = hlsStreams[quality];
+            const originalUrl = hlsStreams[quality];
             
-            if (!streamUrl) {
+            if (!originalUrl) {
                 showError('Неверное качество потока');
                 return;
             }
 
+            loadingText.textContent = `Загрузка через ${currentProxy}...`;
             loadingOverlay.style.display = 'flex';
             playButton.style.display = 'none';
 
+            const proxiedUrl = getProxiedUrl(originalUrl, currentProxy);
+
             if (hls) {
-                hls.loadSource(streamUrl);
+                hls.loadSource(proxiedUrl);
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = streamUrl;
+                video.src = proxiedUrl;
             }
+        }
+
+        // Попробовать следующий прокси
+        function tryNextProxy() {
+            const proxyKeys = Object.keys(proxies);
+            const currentIndex = proxyKeys.indexOf(currentProxy);
+            const nextIndex = (currentIndex + 1) % proxyKeys.length;
+            
+            currentProxy = proxyKeys[nextIndex];
+            proxyStatus.textContent = `${currentProxy} (активно)`;
+            
+            // Обновляем активную кнопку прокси
+            document.querySelectorAll('.proxy-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-proxy') === currentProxy) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            console.log('Переключаемся на прокси:', currentProxy);
+            loadStream('1080p');
         }
 
         // Показать ошибку
         function showError(message) {
             loadingOverlay.innerHTML = `
                 <div style="text-align: center;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 3em; margin-bottom: 15px;"></i>
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3em; margin-bottom: 15px; color: var(--tg-accent-red);"></i>
                     <div>${message}</div>
-                    <button onclick="loadStream('1080p')" style="margin-top: 15px; padding: 10px 20px; background: var(--tg-accent-blue); color: white; border: none; border-radius: 6px; cursor: pointer;">
-                        Попробовать снова
+                    <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
+                        Текущий прокси: ${currentProxy}
+                    </div>
+                    <button onclick="tryNextProxy()" style="margin-top: 15px; padding: 10px 20px; background: var(--tg-accent-blue); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Попробовать другой прокси
+                    </button>
+                    <button onclick="loadStream('1080p')" style="margin-top: 10px; padding: 8px 16px; background: var(--tg-accent-red); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Повторить
                     </button>
                 </div>
             `;
         }
 
-        // Форматирование времени
+        // Управление плеером (остальные функции остаются такими же)
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
 
-        // Обновление прогресса
         function updateProgress() {
             if (!isSeeking && video.duration) {
                 const percent = (video.currentTime / video.duration) * 100;
@@ -688,16 +778,13 @@
             }
         }
 
-        // Перемотка
         function seek(e) {
             if (!video.duration) return;
-            
             const rect = progressBar.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
             video.currentTime = percent * video.duration;
         }
 
-        // Управление громкостью
         function setVolume(e) {
             const rect = volumeSlider.getBoundingClientRect();
             let percent = (e.clientX - rect.left) / rect.width;
@@ -706,7 +793,6 @@
             video.volume = percent;
             volumeLevel.style.width = (percent * 100) + '%';
             
-            // Обновляем иконку
             const icon = volumeBtn.querySelector('i');
             if (percent === 0) {
                 icon.className = 'fas fa-volume-mute';
@@ -717,7 +803,6 @@
             }
         }
 
-        // Полноэкранный режим
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 video.parentElement.requestFullscreen().catch(err => {
@@ -789,12 +874,26 @@
             });
         });
 
+        // Кнопки прокси
+        document.querySelectorAll('.proxy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                currentProxy = this.getAttribute('data-proxy');
+                proxyStatus.textContent = `${currentProxy} (активно)`;
+                
+                document.querySelectorAll('.proxy-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                loadStream('1080p');
+            });
+        });
+
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
             initHLS();
             loadStream('1080p');
             
-            // Устанавливаем начальную громкость
             video.volume = 1;
             volumeLevel.style.width = '100%';
         });
