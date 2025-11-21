@@ -553,7 +553,7 @@
                 LIVE
             </div>
         </h1>
-        <div class="page-subtitle">Гран-при России - Этап 1 • Москва, ЛД "Мегаспорт"</div>
+        <div class="page-subtitle">Первый канал - Прямой эфир</div>
 
         <div class="player-container">
             <div class="player-wrapper" id="playerWrapper">
@@ -564,11 +564,9 @@
 
                 <div class="quality-selector">
                     <button class="quality-btn">
-                        <i class="fas fa-hd"></i> 1080p
+                        <i class="fas fa-hd"></i> DASH
                     </button>
                 </div>
-
-                
 
                 <div id="loadingOverlay" class="loading-overlay">
                     <div class="loading-spinner"></div>
@@ -619,12 +617,12 @@
             <h3><i class="fas fa-info-circle"></i> Информация о трансляции</h3>
             <div class="info-grid">
                 <div class="info-item">
-                    <div class="info-label">Соревнование</div>
-                    <div class="info-value">Гран-при России - Этап 1</div>
+                    <div class="info-label">Канал</div>
+                    <div class="info-value">Первый канал</div>
                 </div>
                 <div class="info-item">
-                    <div class="info-label">Дисциплина</div>
-                    <div class="info-value">Мужское одиночное катание</div>
+                    <div class="info-label">Тип вещания</div>
+                    <div class="info-value">Прямой эфир</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Статус</div>
@@ -637,18 +635,19 @@
                 </div>
                 <div class="info-item">
                     <div class="info-label">Формат</div>
-                    <div class="info-value">HLS Stream (m3u8)</div>
+                    <div class="info-value">MPEG-DASH Stream</div>
                 </div>
             </div>
         </div>
     </main>
 
-
-
     <footer class="footer">
         © 2025 FS Aesthet. Все права защищены.
     </footer>
 
+    <!-- Подключаем библиотеку dash.js для воспроизведения DASH потоков -->
+    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
     <script>
         const video = document.getElementById('videoPlayer');
         const playerWrapper = document.getElementById('playerWrapper');
@@ -665,14 +664,14 @@
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const mobileFullscreenBtn = document.getElementById('mobileFullscreenBtn');
         const loadingOverlay = document.getElementById('loadingOverlay');
-        const orientationHint = document.getElementById('orientationHint');
 
         let isDragging = false;
         let wasPlaying = false;
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        let player;
 
-        // Прямой HLS поток
-        const HLS_STREAM_URL = 'https://river-1.rutube.ru/stream/genetta-324.m9.rutube.ru/rqJ1a6RhzesWcAF6VHRffQ/1764177427/7bf12d9c050f9a7ef3728db5730432ae/1080p_stream.m3u8';
+        // Новый DASH поток
+        const DASH_STREAM_URL = 'https://cdn11.1internet.tv/dash-live3/streams/1tv-dvr/1tvdash.mpd?e=1763740789';
 
         // Форматирование времени
         function formatTime(seconds) {
@@ -683,7 +682,7 @@
 
         // Обновление прогресса
         function updateProgress() {
-            if (!isDragging && video.duration) {
+            if (!isDragging && video.duration && !isNaN(video.duration)) {
                 const percent = (video.currentTime / video.duration) * 100;
                 progressFilled.style.width = percent + '%';
                 progressHandle.style.left = percent + '%';
@@ -755,16 +754,61 @@
             }
         }
 
-        // Проверка ориентации
-        function checkOrientation() {
-            if (isMobile) {
-                const isPortrait = window.innerHeight > window.innerWidth;
-                if (isPortrait && !document.fullscreenElement) {
-                    orientationHint.style.display = 'block';
-                } else {
-                    orientationHint.style.display = 'none';
-                }
+        // Инициализация DASH плеера
+        function initPlayer() {
+            if (dashjs.supportsMediaSource()) {
+                console.log('Используется dash.js для воспроизведения DASH потока');
+                player = dashjs.MediaPlayer().create();
+                player.initialize(video, DASH_STREAM_URL, true);
+                player.updateSettings({
+                    'streaming': {
+                        'fastSwitchEnabled': true,
+                        'buffer': {
+                            'fastSwitchEnabled': true
+                        }
+                    }
+                });
+                
+                // События dash.js
+                player.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, function() {
+                    console.log('DASH поток инициализирован');
+                    loadingOverlay.style.display = 'none';
+                });
+                
+                player.on(dashjs.MediaPlayer.events.ERROR, function(e) {
+                    console.error('Ошибка DASH плеера:', e);
+                    handleStreamError();
+                });
+                
+            } else {
+                console.error('Браузер не поддерживает MediaSource');
+                handleStreamError();
             }
+
+            // Устанавливаем начальную громкость
+            video.volume = 1;
+            volumeLevel.style.width = '100%';
+            updateVolumeIcon();
+        }
+
+        function handleStreamError() {
+            loadingOverlay.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3em; margin-bottom: 15px; color: var(--tg-accent-red);"></i>
+                    <div>Ошибка подключения к трансляции</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
+                        Поток недоступен или браузер не поддерживает формат
+                    </div>
+                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+                        <button onclick="initPlayer()" style="padding: 8px 16px; background: var(--tg-accent-blue); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                            Повторить
+                        </button>
+                        <button onclick="window.open('https://1tv.ru', '_blank')" style="padding: 8px 16px; background: var(--tg-accent-red); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                            Открыть на 1tv.ru
+                        </button>
+                    </div>
+                </div>
+            `;
         }
 
         // События
@@ -805,7 +849,9 @@
 
         video.addEventListener('timeupdate', updateProgress);
         video.addEventListener('loadedmetadata', () => {
-            durationTime.textContent = formatTime(video.duration);
+            if (!isNaN(video.duration)) {
+                durationTime.textContent = formatTime(video.duration);
+            }
         });
 
         video.addEventListener('canplay', () => {
@@ -865,53 +911,6 @@
         document.addEventListener('fullscreenchange', updateFullscreenIcon);
         document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
         document.addEventListener('msfullscreenchange', updateFullscreenIcon);
-
-        // Ориентация
-        window.addEventListener('resize', checkOrientation);
-        window.addEventListener('orientationchange', checkOrientation);
-
-        // Инициализация плеера
-        function initPlayer() {
-            if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                console.log('Используется нативная поддержка HLS');
-                video.src = HLS_STREAM_URL;
-            } else {
-                console.log('Прямое воспроизведение HLS');
-                video.src = HLS_STREAM_URL;
-            }
-
-            // Устанавливаем начальную громкость
-            video.volume = 1;
-            volumeLevel.style.width = '100%';
-            updateVolumeIcon();
-            
-            // Проверяем ориентацию при загрузке
-            checkOrientation();
-        }
-
-        function handleStreamError() {
-            loadingOverlay.innerHTML = `
-                <div style="text-align: center;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 3em; margin-bottom: 15px; color: var(--tg-accent-red);"></i>
-                    <div>Ошибка подключения к трансляции</div>
-                    <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
-                        CORS ограничения или поток недоступен
-                    </div>
-                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
-                        <button onclick="initPlayer()" style="padding: 8px 16px; background: var(--tg-accent-blue); color: white; border: none; border-radius: 6px; cursor: pointer;">
-                            Повторить
-                        </button>
-                        <button onclick="openInNewTab()" style="padding: 8px 16px; background: var(--tg-accent-red); color: white; border: none; border-radius: 6px; cursor: pointer;">
-                            Открыть в Rutube
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function openInNewTab() {
-            window.open('https://rutube.ru', '_blank');
-        }
 
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
