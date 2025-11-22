@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гран При России – Золотой конек Москвы - FS Aesthet</title>
+    
+    <!-- Google Fonts: Inter, Roboto Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+/* --- Telegram-inspired Design by FSA --- */
+:root {
+    --tg-bg-primary: #f0f2f5;
+    --tg-text-primary: #000000;
+    --tg-text-secondary: #8e8e93;
+    --tg-accent-blue: #007AFF;
+    --tg-accent-blue-hover: #005EC4;
+    --tg-header-bg: #ffffff;
+    --tg-header-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+    --tg-pattern-opacity: 0.05;
+    --tg-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f7f9 100%);
+    --tg-card-border: #dcdcdc;
+    --tg-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --tg-card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --tg-card-text-category: #555555;
+    --tg-card-text-title: #1c1c1e;
+    --tg-card-text-label: #666666;
+    --tg-card-text-value: #1c1c1e;
+    --transition-speed: 0.3s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--tg-bg-primary);
+    color: var(--tg-text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.header {
+    background: var(--tg-header-bg);
+    padding: 12px 16px;
+    box-shadow: var(--tg-header-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .logo {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--tg-accent-blue);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+}
+.header .logo-icon { 
+    font-size: 1.1em; 
+    margin-right: 6px; 
+    color: var(--tg-accent-blue); 
+}
+.header nav { 
+    display: flex; 
+}
+.header a {
+    color: var(--tg-text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95em;
+    transition: color var(--transition-speed);
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+.header a:hover { 
+    color: var(--tg-accent-blue-hover); 
+    background-color: rgba(0, 122, 255, 0.05);
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.page-title {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--tg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.page-subtitle {
+    font-size: 1em;
+    color: var(--tg-text-secondary);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.tournament-table {
+    background: var(--tg-card-bg);
+    border: 1px solid var(--tg-card-border);
+    border-radius: 12px;
+    box-shadow: var(--tg-card-shadow);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 30px;
+}
+.tournament-table::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02) 0px, rgba(0, 0, 0, 0.02) 2px, transparent 2px, transparent 4px);
+    opacity: var(--tg-pattern-opacity);
+    pointer-events: none;
+}
+
+.table-header {
+    background: linear-gradient(135deg, var(--tg-accent-blue), #0056b3);
+    color: white;
+    padding: 14px 12px;
+    display: grid;
+    grid-template-columns: 60px 1fr 80px 60px 60px 60px;
+    gap: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 80px 60px 60px 60px;
+    gap: 8px;
+    padding: 14px 12px;
+    align-items: center;
+    border-bottom: 1px dashed var(--tg-text-secondary);
+    transition: background-color var(--transition-speed);
+    font-size: 0.85em;
+}
+.table-row:last-child {
+    border-bottom: none;
+}
+.table-row:hover {
+    background-color: rgba(0, 122, 255, 0.05);
+}
+
+.rank-cell {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rank-1 { color: #FFD700; }
+.rank-2 { color: #C0C0C0; }
+.rank-3 { color: #CD7F32; }
+.rank-other { color: var(--tg-text-primary); }
+
+.name-cell {
+    font-weight: 500;
+    color: var(--tg-text-primary);
+    padding-right: 5px;
+    word-break: break-word;
+}
+.name-cell a {
+    color: var(--tg-text-primary);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+.name-cell a:hover {
+    color: var(--tg-accent-blue);
+}
+
+.region-cell {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--tg-text-secondary);
+    text-transform: uppercase;
+}
+
+.points-cell {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--tg-accent-blue);
+}
+
+.sp-cell, .fs-cell {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--tg-text-primary);
+}
+
+.medal-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+.medal-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; }
+.medal-silver { background: linear-gradient(135deg, #C0C0C0, #A0A0A0); color: #000; }
+.medal-bronze { background: linear-gradient(135deg, #CD7F32, #A56C2B); color: #000; }
+
+.footer {
+    margin-top: auto;
+    padding: 16px;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--tg-text-secondary);
+    background: var(--tg-header-bg);
+    box-shadow: var(--tg-header-shadow);
+}
+
+.footer-links {
+    margin-top: 8px;
+}
+
+.footer-links a {
+    color: var(--tg-accent-blue);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color var(--transition-speed);
+}
+
+.footer-links a:hover {
+    color: var(--tg-accent-blue-hover);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    body {
+        font-size: 13px;
+    }
+    
+    .header {
+        padding: 10px 12px;
+    }
+    
+    .header .logo {
+        font-size: 1.1em;
+    }
+    
+    .header a {
+        font-size: 0.9em;
+        padding: 5px 10px;
+    }
+    
+    .main-content {
+        padding: 15px 12px;
+    }
+    
+    .page-title {
+        font-size: 1.5em;
+    }
+    
+    .page-subtitle {
+        font-size: 0.9em;
+        margin-bottom: 25px;
+    }
+    
+    .table-header, .table-row {
+        grid-template-columns: 50px 1fr 70px 50px 50px 50px;
+        gap: 6px;
+        padding: 12px 10px;
+        font-size: 0.8em;
+    }
+    
+    .table-header {
+        padding: 12px 10px;
+        font-size: 0.75em;
+    }
+    
+    .rank-cell {
+        font-size: 0.9em;
+    }
+    
+    .points-cell, .sp-cell, .fs-cell {
+        font-size: 0.85em;
+    }
+    
+    .medal-badge {
+        width: 22px;
+        height: 22px;
+        font-size: 0.75em;
+    }
+    
+    .footer {
+        padding: 12px;
+        font-size: 0.75em;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-header, .table-row {
+        grid-template-columns: 40px 1fr 60px 40px 40px 40px;
+        gap: 5px;
+        padding: 10px 8px;
+        font-size: 0.75em;
+    }
+    
+    .table-header {
+        padding: 10px 8px;
+        font-size: 0.7em;
+    }
+    
+    .points-cell, .sp-cell, .fs-cell {
+        font-size: 0.8em;
+    }
+    
+    .name-cell {
+        font-size: 0.8em;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fab fa-telegram logo-icon" aria-hidden="true"></i>
+            FS Aesthet
+        </div>
+        <nav>
+            <a href="index.html">Главная</a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <h1 class="page-title">Гран При России – Золотой конек Москвы</h1>
+        <div class="page-subtitle">Танцы, МС - Финальные результаты</div>
+
+        <div class="tournament-table">
+            <div class="table-header">
+                <div>Место</div>
+                <div>Спортсмен</div>
+                <div>Регион</div>
+                <div>Очки</div>
+                <div>КП</div>
+                <div>ПП</div>
+            </div>
+            
+            <div class="table-row">
+                <div class="rank-cell rank-1">
+                    <span class="medal-badge medal-gold">1</span>
+                </div>
+                <div class="name-cell">
+                    <a>Александра Николаевна СТЕПАНОВА / Иван Андреевич БУКИН</a><br />
+                    <small>Москва, МАФКК -  школа "Легенда"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">210.10</div>
+                <div class="sp-cell">1</div>
+                <div class="fs-cell">1</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-2">
+                    <span class="medal-badge medal-silver">2</span>
+                </div>
+                <div class="name-cell">
+                    <a>Екатерина Евгеньевна РЫБАКОВА / Иван Евгеньевич МАХНОНОСОВ</a><br />
+                    <small>Москва, МАФКК - школа "Медведково"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">183.33</div>
+                <div class="sp-cell">2</div>
+                <div class="fs-cell">2</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-3">
+                    <span class="medal-badge medal-bronze">3</span>
+                </div>
+                <div class="name-cell">
+                    <a>Варвара Павловна ЖДАНОВА / Тимур Витальевич БАБАЕВ-СМИРНОВ</a><br />
+                    <small>Москва, МАФКК - школа "Хрустальный"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">176.36</div>
+                <div class="sp-cell">3</div>
+                <div class="fs-cell">4</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-other">
+                    4
+                </div>
+                <div class="name-cell">
+                    <a>Анна Андреевна КОЛОМЕНСКАЯ / Артем Дмитриевич ФРОЛОВ</a><br />
+                    <small>Москва, МАФКК - школа "Олимп"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">175.36</div>
+                <div class="sp-cell">6</div>
+                <div class="fs-cell">3</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-other">
+                    5
+                </div>
+                <div class="name-cell">
+                    <a>Василиса Александровна ГРИГОРЬЕВА / Евгений Витальевич АРТЮЩЕНКО</a><br />
+                    <small>Москва, МАФКК - школа "Медведково"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">172.16</div>
+                <div class="sp-cell">4</div>
+                <div class="fs-cell">5</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-other">
+                    6
+                </div>
+                <div class="name-cell">
+                    <a>Софья Антоновна ШЕВЧЕНКО / Андрей Михайлович ЕЖЛОВ</a><br />
+                    <small>Москва, МАФКК -  школа "Вдохновение"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">171.08</div>
+                <div class="sp-cell">5</div>
+                <div class="fs-cell">6</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-other">
+                    7
+                </div>
+                <div class="name-cell">
+                    <a>Таисия Сергеевна ЛИНЧЕВСКАЯ / Дмитрий Евгеньевич ЩЕРБАКОВ</a><br />
+                    <small>Москва, МАФКК - школа "Хрустальный"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">159.66</div>
+                <div class="sp-cell">8</div>
+                <div class="fs-cell">7</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-other">
+                    8
+                </div>
+                <div class="name-cell">
+                    <a>Александра Валерьевна ШИНКАРЕНКО / Михаил Романович АНТОНОВ</a><br />
+                    <small>Москва, МАФКК - школа "Олимп"</small>
+                </div>
+                <div class="region-cell">МОС</div>
+                <div class="points-cell">150.73</div>
+                <div class="sp-cell">9</div>
+                <div class="fs-cell">8</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-other">
+                    9
+                </div>
+                <div class="name-cell">
+                    <a>Александра Викторовна ПРОКОПЕЦ / Александр Ильич ВАСЬКОВИЧ</a><br />
+                    <small>Московская область, СШОР им. Ю.Е. Ляпкина</small>
+                </div>
+                <div class="region-cell">МОБ</div>
+                <div class="points-cell">148.28</div>
+                <div class="sp-cell">7</div>
+                <div class="fs-cell">9</div>
+            </div>
+        
+            <div class="table-row">
+                <div class="rank-cell rank-other">
+                    10
+                </div>
+                <div class="name-cell">
+                    <a>Елизавета Михайловна КИРИЛЛОВА / Илья Игоревич КАРПОВ</a><br />
+                    <small>Нижегородская область, СШОР по ЛВС</small>
+                </div>
+                <div class="region-cell">НИЖ</div>
+                <div class="points-cell">113.26</div>
+                <div class="sp-cell">10</div>
+                <div class="fs-cell">10</div>
+            </div>
+        
+        </div>
+    </main>
+
+    <footer class="footer">
+        © 2025 FS Aesthet. Все права защищены.
+        <div class="footer-links">
+            <a href="index.htm">Back to Event Page</a>
+            <a href="javascript:history.go(-1)">Back</a>
+            <a href="http://fsrussia.ru">Back to Home Page</a>
+        </div>
+        <div style="margin-top: 10px;">
+            <small><a href="http://www.isujudgingsystem.com">Created by ISUCalcFS</a></small><br />
+            <small>Last Update: 16.11.2025 18:31</small>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница не найдена - 404</title>
+
+    <!-- Google Fonts: Inter, Roboto Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Скопируйте сюда ваши :root переменные и общие стили --- */
+        /* Это важно, чтобы страница 404 выглядела в том же стиле */
+        :root {
+            --tg-bg-primary: #f0f2f5; /* Светло-серый фон страницы, как в Telegram */
+            --tg-text-primary: #000000; /* Основной черный текст */
+            --tg-text-secondary: #8e8e93; /* Вторичный серый текст */
+            --tg-accent-blue: #007AFF; /* Основной синий акцент */
+            --tg-accent-blue-hover: #005EC4; /* Синий акцент при наведении */
+            --tg-header-bg: #ffffff; /* Белый фон хедера */
+            --tg-header-shadow: 0 1px 0 rgba(0, 0, 0, 0.08); /* Легкая тень хедера */
+            --tg-pattern-opacity: 0.05; /* Прозрачность узоров */
+
+            /* Цвета и стили для карточек (не используются напрямую на 404, но для единообразия) */
+            --tg-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f7f9 100%);
+            --tg-card-border: #dcdcdc;
+            --tg-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --tg-card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+            --tg-card-text-category: #555555;
+            --tg-card-text-title: #1c1c1e;
+            --tg-card-text-label: #666666;
+            --tg-card-text-value: #1c1c1e;
+
+            --tg-text-emboss-light: 0.5px 0.5px 1px rgba(255, 255, 255, 0.8), -0.5px -0.5px 1px rgba(0, 0, 0, 0.1);
+            --tg-text-emboss-dark: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2), -0.5px -0.5px 1px rgba(255, 255, 255, 0.6);
+
+            --transition-speed: 0.3s ease;
+        }
+
+        /* --- Глобальные стили (можно скопировать из вашего основного файла) --- */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--tg-bg-primary);
+            color: var(--tg-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Чтобы футер был внизу, если контента мало */
+            font-weight: 400;
+        }
+
+        /* --- Логотип (скопировать из вашего файла) --- */
+        .logo {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 1.50em;
+            color: var(--tg-accent-blue);
+            margin: 0 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+        }
+        .logo-icon { font-size: 1.1em; margin-right: 8px; color: var(--tg-accent-blue); }
+
+        /* --- Хедер (скопировать из вашего файла) --- */
+        .header {
+            background: var(--tg-header-bg);
+            padding: 12px 20px;
+            box-shadow: var(--tg-header-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header nav {
+            display: flex;
+            gap: 25px;
+            margin-left: auto;
+        }
+        .header a {
+            color: var(--tg-text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05em;
+            transition: color var(--transition-speed);
+            position: relative;
+        }
+        .header a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--tg-accent-blue);
+            transition: width var(--transition-speed);
+        }
+        .header a:hover {
+            color: var(--tg-accent-blue-hover);
+        }
+        .header a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Контейнер для основной части страницы --- */
+        .main-content {
+            flex-grow: 1; /* Занимает все доступное пространство */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px; /* Больше отступов сверху/снизу */
+        }
+
+        /* --- Стили для страницы 404 --- */
+        .not-found-container {
+            position: relative;
+            text-align: center;
+            width: 100%;
+            max-width: 700px; /* Ограничиваем ширину контента */
+            z-index: 1;
+        }
+
+        .not-found-title {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 7em; /* Большой, впечатляющий размер */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--tg-accent-blue); /* Акцентный цвет */
+            margin-bottom: 0;
+            opacity: 0.9;
+            text-shadow: var(--tg-text-emboss-dark); /* Тени для рельефа */
+            position: relative;
+            z-index: 2;
+        }
+        .not-found-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: var(--tg-text-primary);
+            margin-top: -15px; /* Сближаем с основным заголовком */
+            margin-bottom: 30px;
+            opacity: 0.95;
+            text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.7);
+            z-index: 2;
+        }
+
+        .not-found-message {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1em;
+            color: var(--tg-text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.7;
+            max-width: 450px; /* Ограничиваем ширину сообщения */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .not-found-animation-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; /* Размер области анимации */
+            height: 300px;
+            pointer-events: none; /* Чтобы не мешал кликать */
+            z-index: 1;
+        }
+
+        /* --- Элементы анимации --- */
+        .not-found-element {
+            position: absolute;
+            background-color: var(--tg-accent-blue); /* Акцентный цвет */
+            border-radius: 50%; /* Круглые элементы */
+            opacity: 0.5;
+            filter: blur(10px); /* Размытие */
+            animation: float 6s ease-in-out infinite; /* Анимация плавания */
+        }
+
+        .not-found-element.small {
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            left: 40%;
+            background-color: rgba(0, 122, 255, 0.3); /* Более прозрачный синий */
+            animation-duration: 8s;
+            animation-delay: -2s; /* Сдвиг для рассинхронизации */
+        }
+        .not-found-element.medium {
+            width: 100px;
+            height: 100px;
+            top: 60%;
+            left: 55%;
+            background-color: rgba(0, 122, 255, 0.2);
+            animation-duration: 7s;
+            animation-delay: -4s;
+        }
+        .not-found-element.large {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 45%;
+            background-color: rgba(0, 122, 255, 0.15);
+            animation-duration: 9s;
+            animation-delay: -6s;
+        }
+
+        /* --- Кнопка "Назад" --- */
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--tg-accent-blue);
+            color: #fff; /* Белый текст на кнопке */
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            border-radius: 8px;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2); /* Синяя тень */
+        }
+        .back-button:hover {
+            background-color: var(--tg-accent-blue-hover);
+            transform: translateY(-3px); /* Легкий подъем */
+        }
+
+        /* --- Футер (скопировать из вашего файла, если есть) --- */
+        .footer {
+            margin-top: auto; /* Прижимаем к низу */
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--tg-text-secondary);
+            background: var(--tg-header-bg); /* Можно использовать тот же фон, что и у хедера */
+            box-shadow: var(--tg-header-shadow); /* Та же легкая тень */
+        }
+
+        /* --- Анимации --- */
+        @keyframes float {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) scale(0.9);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) rotate(180deg) scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg) scale(0.9);
+                opacity: 0.3;
+            }
+        }
+
+        /* --- Адаптивность --- */
+        @media (max-width: 768px) {
+            .not-found-title { font-size: 5em; }
+            .not-found-subtitle { font-size: 1.5em; margin-top: -10px; }
+            .not-found-message {
+			font-size: 1em; margin-bottom: 30px; }
+            .not-found-animation-wrapper { width: 200px; height: 200px; }
+            .not-found-element.small,
+            .not-found-element.medium,
+            .not-found-element.large {
+                animation-delay: -1s; /* Немного меняем задержку */
+            }
+            .not-found-element.small { width: 50px; height: 50px; }
+            .not-found-element.medium { width: 80px; height: 80px; }
+            .not-found-element.large { width: 120px; height: 120px; }
+            .back-button { padding: 10px 20px; font-size: 1em; }
+        }
+        @media (max-width: 480px) {
+            .not-found-title { font-size: 4em; letter-spacing: 2px; }
+            .not-found-subtitle { font-size: 1.3em; margin-bottom: 20px; }
+            .not-found-message { font-size: 0.95em; margin-bottom: 25px; }
+            .header { flex-direction: column; gap: 10px; padding: 10px; }
+            .logo { font-size: 1.7em; margin-bottom: 5px; }
+            .header nav { margin-left: 0; justify-content: center; width: 100%; gap: 15px; }
+            .not-found-animation-wrapper { width: 150px; height: 150px; }
+            .not-found-element.small { width: 40px; height: 40px; }
+            .not-found-element.medium { width: 60px; height: 60px; }
+            .not-found-element.large { width: 90px; height: 90px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Хедер (скопировать из вашего файла) -->
+    <div class="header">
+        <div class="logo">
+            <i class="fab fa-telegram logo-icon" aria-hidden="true"></i>
+            FS Aesthet
+        </div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="#">О нас</a>
+            <a href="#">Контакты</a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <div class="not-found-container">
+            <div class="not-found-animation-wrapper">
+                <div class="not-found-element small"></div>
+                <div class="not-found-element medium"></div>
+                <div class="not-found-element large"></div>
+            </div>
+            <h1 class="not-found-title">404</h1>
+            <h2 class="not-found-subtitle">Страница не найдена</h2>
+            <p class="not-found-message">
+                Похоже, вы попытались перейти по ссылке, которая ведет в никуда.
+                Возможно, страница была удалена, перенесена, или вы допустили опечатку.
+            </p>
+            <a href="index.html" class="back-button">
+                <i class="fas fa-home" aria-hidden="true" style="margin-right: 8px;"></i>
+                На главную
+            </a>
+        </div>
+    </main>
+
+    <!-- Футер (скопировать из вашего файла, если есть) -->
+    <footer class="footer">
+        © 2025 FS Aesthet. Все права защищены.
+    </footer>
+
+</body>
+</html>

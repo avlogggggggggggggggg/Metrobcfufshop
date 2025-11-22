@@ -1,0 +1,31 @@
+[
+  {
+    "rank": 1,
+    "name": "Александра",
+    "surname": "СТЕПАНОВА",
+    "region": "МОС",
+    "startNumber": 10,
+    "totalScore": 125.78,
+    "technicalScore": 70.78,
+    "componentScore": 55.0,
+    "deductions": 0.0,
+    "location": "Москва, МАФКК - школа \"Легенда\"",
+    "elements": [
+      {
+        "number": 1,
+        "name": "SyTwW4+SyTwM4",
+        "bv": 6.84,
+        "goe": 2.18,
+        "total": 9.02
+      },
+      {
+        "number": 2,
+        "name": "SlLi4+RoLi4",
+        "bv": 10.9,
+        "goe": 3.26,
+        "total": 14.16
+      }
+    ],
+    "baseTechnicalScore": 46.41
+  }
+]

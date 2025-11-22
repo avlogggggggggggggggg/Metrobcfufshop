@@ -421,7 +421,7 @@ h1::after {
         min-width: 25px; /* Уменьшаем мин. ширину */
     }
     .athlete-name {
-        font-size: 1.3em; /* Чуть меньше */
+        font-size: 0.8em; /* Чуть меньше */
         margin-right: 5px; /* Небольшой отступ */
     }
     .athlete-location {
@@ -461,7 +461,7 @@ h1::after {
 
     .segment-header { font-size: 1.5em; }
 
-    .athlete-name { font-size: 1.2em; }
+    .athlete-name { font-size: 0.5em; }
     .athlete-total-score { font-size: 1.1em; }
     .expand-arrow { font-size: 1.2em; }
 
@@ -479,7 +479,7 @@ h1::after {
             FS Aesthet
         </div>
         <nav>
-            <a href="index.html">Главная</a>
+            <a href="index.html">Назад</a>
             
         </nav>
     </div>
@@ -494,275 +494,186 @@ h1::after {
 
     <script>
         const segmentData = {
-          "segmentName": "Короткая программа",
-          "tournamentName": "Золотой конёк Москвы - Гран-при России",
+          "segmentName": "Короткая Программа",
+          "tournamentName": "Сердце Сибири - Омск",
           "results": [
-  {
+   {
     "rank": 1,
-    "name": "Евгений",
-    "surname": "СЕМЕНЕНКО",
-    "location": "Санкт-Петербург, СШОР \"Звездный лед\"",
+    "name": "Анастасия / Александр",
+    "surname": "МИШИНА / ГАЛЛЯМОВ",
+    "location": "Санкт-Петербург, СК ФК Тамары Москвиной",
     "region": "СПБ",
-    "startNumber": 12,
-    "totalScore": 96.75,
-    "technicalScore": 53.91,
-    "componentScore": 42.84,
+    "startNumber": 8,
+    "totalScore": 76.64,
+    "technicalScore": 42.32,
+    "componentScore": 34.32,
     "deductions": 0.00,
     "elements": [
-      {"number": 1, "name": "4T", "bv": 9.50, "goe": 1.90, "total": 11.40},
-      {"number": 2, "name": "4S+3T", "bv": 13.90, "goe": 2.72, "total": 16.62},
-      {"number": 3, "name": "CCoSp4", "bv": 3.50, "goe": 0.98, "total": 4.48},
-      {"number": 4, "name": "3A", "bv": 8.80, "goe": 0.00, "total": 8.80},
-      {"number": 5, "name": "FCSp3", "bv": 2.80, "goe": 0.67, "total": 3.47},
-      {"number": 6, "name": "StSq4", "bv": 3.90, "goe": 1.40, "total": 5.30},
-      {"number": 7, "name": "CSSp4", "bv": 3.00, "goe": 0.84, "total": 3.84}
+      {"number": 1, "name": "3Tw4", "bv": 6.00, "goe": 1.56, "total": 7.56},
+      {"number": 2, "name": "3FTh", "bv": 5.30, "goe": 1.91, "total": 7.21},
+      {"number": 3, "name": "3S", "bv": 4.30, "goe": 0.52, "total": 4.82},
+      {"number": 4, "name": "BiDs4", "bv": 4.00, "goe": 0.80, "total": 4.80},
+      {"number": 5, "name": "5RLi4", "bv": 7.00, "goe": 1.82, "total": 8.82},
+      {"number": 6, "name": "StSq4", "bv": 3.90, "goe": 1.01, "total": 4.91},
+      {"number": 7, "name": "FCCoSp4", "bv": 3.50, "goe": 0.70, "total": 4.20}
     ],
-    "baseTechnicalScore": 45.40
+    "baseTechnicalScore": 34.00
   },
   {
     "rank": 2,
-    "name": "Марк",
-    "surname": "КОНДРАТЮК",
-    "location": "Москва, МАФКК - школа \"Наши надежды\"",
-    "region": "МОС",
-    "startNumber": 8,
-    "totalScore": 96.42,
-    "technicalScore": 53.83,
-    "componentScore": 42.59,
+    "name": "Екатерина / Матвей",
+    "surname": "ЧИКМАРЁВА / ЯНЧЕНКОВ",
+    "location": "Пермский край, ПК СШОР \"Старт\"",
+    "region": "ПРМ",
+    "startNumber": 5,
+    "totalScore": 75.92,
+    "technicalScore": 42.87,
+    "componentScore": 33.05,
     "deductions": 0.00,
     "elements": [
-      {"number": 1, "name": "3A", "bv": 8.00, "goe": 1.60, "total": 9.60},
-      {"number": 2, "name": "4Lzq", "bv": 11.50, "goe": -0.46, "total": 11.04},
-      {"number": 3, "name": "FCSp4", "bv": 3.20, "goe": 0.83, "total": 4.03},
-      {"number": 4, "name": "4S+3T", "bv": 15.29, "goe": 1.75, "total": 17.04},
-      {"number": 5, "name": "CCoSp4", "bv": 3.50, "goe": 0.77, "total": 4.27},
-      {"number": 6, "name": "CSSp4", "bv": 3.00, "goe": 0.36, "total": 3.36},
-      {"number": 7, "name": "StSq3", "bv": 3.30, "goe": 1.19, "total": 4.49}
+      {"number": 1, "name": "3S", "bv": 4.30, "goe": 1.12, "total": 5.42},
+      {"number": 2, "name": "3Tw3", "bv": 5.70, "goe": 1.71, "total": 7.41},
+      {"number": 3, "name": "3LoTh", "bv": 5.00, "goe": 1.80, "total": 6.80},
+      {"number": 4, "name": "5RLi4", "bv": 7.00, "goe": 2.24, "total": 9.24},
+      {"number": 5, "name": "StSq4", "bv": 3.90, "goe": 0.86, "total": 4.76},
+      {"number": 6, "name": "BiDs4", "bv": 4.00, "goe": 1.04, "total": 5.04},
+      {"number": 7, "name": "FCCoSp4", "bv": 3.50, "goe": 0.70, "total": 4.20}
     ],
-    "baseTechnicalScore": 47.79
+    "baseTechnicalScore": 33.40
   },
   {
     "rank": 3,
-    "name": "Роман",
-    "surname": "САВОСИН",
-    "location": "Москва, МАФКК - школа \"Конек Чайковской\"",
+    "name": "Анастасия / Дмитрий",
+    "surname": "МУХОРТОВА / ЕВГЕНЬЕВ",
+    "location": "Москва, МАФКК - школа \"Наши надежды\"",
     "region": "МОС",
-    "startNumber": 2,
-    "totalScore": 90.22,
-    "technicalScore": 49.72,
-    "componentScore": 40.50,
+    "startNumber": 7,
+    "totalScore": 69.91,
+    "technicalScore": 37.92,
+    "componentScore": 31.99,
     "deductions": 0.00,
     "elements": [
-      {"number": 1, "name": "4T+3T", "bv": 13.70, "goe": 1.90, "total": 15.60},
-      {"number": 2, "name": "4S", "bv": 9.70, "goe": 1.55, "total": 11.25},
-      {"number": 3, "name": "CSSp4", "bv": 3.00, "goe": 0.60, "total": 3.60},
-      {"number": 4, "name": "3Aq", "bv": 8.80, "goe": -0.80, "total": 8.00},
-      {"number": 5, "name": "FCSp4", "bv": 3.20, "goe": 0.70, "total": 3.90},
-      {"number": 6, "name": "StSq2", "bv": 2.60, "goe": 0.57, "total": 3.17},
-      {"number": 7, "name": "CCoSp4", "bv": 3.50, "goe": 0.70, "total": 4.20}
+      {"number": 1, "name": "3Tw3", "bv": 5.70, "goe": 0.57, "total": 6.27},
+      {"number": 2, "name": "3S", "bv": 4.30, "goe": 0.77, "total": 5.07},
+      {"number": 3, "name": "3LoTh", "bv": 5.00, "goe": 1.00, "total": 6.00},
+      {"number": 4, "name": "5RLi4", "bv": 7.00, "goe": 1.54, "total": 8.54},
+      {"number": 5, "name": "BiDs4", "bv": 4.00, "goe": 0.72, "total": 4.72},
+      {"number": 6, "name": "StSq3", "bv": 3.30, "goe": 0.73, "total": 4.03},
+      {"number": 7, "name": "FCCoSp4", "bv": 3.50, "goe": -0.21, "total": 3.29}
     ],
-    "baseTechnicalScore": 44.50
+    "baseTechnicalScore": 32.80
   },
   {
     "rank": 4,
-    "name": "Петр",
-    "surname": "ГУМЕННИК",
-    "location": "Санкт-Петербург, СК ФК Тамары Москвиной",
-    "region": "СПБ",
-    "startNumber": 10,
-    "totalScore": 90.22,
-    "technicalScore": 48.71,
-    "componentScore": 42.51,
-    "deductions": 1.00,
+    "name": "Валерия / Даниил",
+    "surname": "ХОДЫКИНА / БУТЕНКО",
+    "location": "Москва, МАФКК - школа \"Вдохновение\"",
+    "region": "МОС",
+    "startNumber": 2,
+    "totalScore": 65.71,
+    "technicalScore": 38.12,
+    "componentScore": 27.59,
+    "deductions": 0.00,
     "elements": [
-      {"number": 1, "name": "4F+3T", "bv": 15.20, "goe": 3.08, "total": 18.28},
-      {"number": 2, "name": "4Lz<<", "bv": 5.90, "goe": -2.95, "total": 2.95},
-      {"number": 3, "name": "FCSp3", "bv": 2.80, "goe": 0.56, "total": 3.36},
-      {"number": 4, "name": "3A", "bv": 8.80, "goe": 2.24, "total": 11.04},
-      {"number": 5, "name": "CSSp4", "bv": 3.00, "goe": 0.60, "total": 3.60},
-      {"number": 6, "name": "StSq4", "bv": 3.90, "goe": 1.17, "total": 5.07},
-      {"number": 7, "name": "CCoSp4", "bv": 3.50, "goe": 0.91, "total": 4.41}
+      {"number": 1, "name": "3Tw3", "bv": 5.70, "goe": 1.03, "total": 6.73},
+      {"number": 2, "name": "3Lo", "bv": 4.90, "goe": 0.69, "total": 5.59},
+      {"number": 3, "name": "3FTh", "bv": 5.30, "goe": 0.74, "total": 6.04},
+      {"number": 4, "name": "5RLi4", "bv": 7.00, "goe": 1.40, "total": 8.40},
+      {"number": 5, "name": "BiDs3", "bv": 3.70, "goe": 0.67, "total": 4.37},
+      {"number": 6, "name": "StSq3", "bv": 3.30, "goe": 0.40, "total": 3.70},
+      {"number": 7, "name": "CCoSp4", "bv": 3.50, "goe": -0.21, "total": 3.29}
     ],
-    "baseTechnicalScore": 43.10
+    "baseTechnicalScore": 33.40
   },
   {
     "rank": 5,
-    "name": "Макар",
-    "surname": "ИГНАТОВ",
-    "location": "Московская область, УОР №1, АФК \"Ангелы Плющенко\"",
-    "region": "МОБ",
-    "startNumber": 11,
-    "totalScore": 85.75,
-    "technicalScore": 46.16,
-    "componentScore": 39.59,
-    "deductions": 0.00,
+    "name": "Таисия / Артём",
+    "surname": "ЩЕРБИНИНА / ПЕТРОВ",
+    "location": "Пермский край, ПК СШОР \"Старт\"",
+    "region": "ПРМ",
+    "startNumber": 6,
+    "totalScore": 63.65,
+    "technicalScore": 35.26,
+    "componentScore": 30.39,
+    "deductions": 2.00,
     "elements": [
-      {"number": 1, "name": "4Lo", "bv": 10.50, "goe": -3.15, "total": 7.35},
-      {"number": 2, "name": "3A", "bv": 8.00, "goe": 1.92, "total": 9.92},
-      {"number": 3, "name": "FCSp3", "bv": 2.80, "goe": 0.62, "total": 3.42},
-      {"number": 4, "name": "4T+3T", "bv": 15.07, "goe": 1.90, "total": 16.97},
-      {"number": 5, "name": "StSq3", "bv": 3.30, "goe": 0.73, "total": 4.03},
-      {"number": 6, "name": "CSSp2", "bv": 2.30, "goe": 0.14, "total": 2.44},
-      {"number": 7, "name": "CCoSp2V", "bv": 1.88, "goe": 0.15, "total": 2.03}
+      {"number": 1, "name": "3Tw3", "bv": 5.70, "goe": 1.48, "total": 7.18},
+      {"number": 2, "name": "3S<", "bv": 3.44, "goe": -1.72, "total": 1.72},
+      {"number": 3, "name": "3FTh", "bv": 5.30, "goe": 1.38, "total": 6.68},
+      {"number": 4, "name": "5ALi4", "bv": 7.00, "goe": 1.54, "total": 8.54},
+      {"number": 5, "name": "StSq2", "bv": 2.60, "goe": 0.47, "total": 3.07},
+      {"number": 6, "name": "BiDs3", "bv": 3.70, "goe": 0.52, "total": 4.22},
+      {"number": 7, "name": "CCoSp4", "bv": 3.50, "goe": 0.35, "total": 3.85}
     ],
-    "baseTechnicalScore": 43.85
+    "baseTechnicalScore": 31.24
   },
   {
     "rank": 6,
-    "name": "Семён",
-    "surname": "СОЛОВЬЕВ",
-    "location": "Санкт-Петербург, СШОР \"Звездный лед\"",
+    "name": "Анна / Артём",
+    "surname": "МОСКАЛЁВА / РОДЗЯНОВ",
+    "location": "Санкт-Петербург, СК ФК Тамары Москвиной",
     "region": "СПБ",
-    "startNumber": 4,
-    "totalScore": 76.26,
-    "technicalScore": 40.19,
-    "componentScore": 36.07,
-    "deductions": 0.00,
+    "startNumber": 1,
+    "totalScore": 57.58,
+    "technicalScore": 31.65,
+    "componentScore": 26.93,
+    "deductions": 1.00,
     "elements": [
-      {"number": 1, "name": "3Aq", "bv": 8.00, "goe": -1.60, "total": 6.40},
-      {"number": 2, "name": "4T", "bv": 9.50, "goe": 0.76, "total": 10.26},
-      {"number": 3, "name": "FCSp3", "bv": 2.80, "goe": 0.28, "total": 3.08},
-      {"number": 4, "name": "3Lz+3T", "bv": 11.11, "goe": 1.30, "total": 12.41},
-      {"number": 5, "name": "CSSp4", "bv": 3.00, "goe": 0.24, "total": 3.24},
-      {"number": 6, "name": "StSq2", "bv": 2.60, "goe": 0.36, "total": 2.96},
-      {"number": 7, "name": "CCoSp2V", "bv": 1.88, "goe": -0.04, "total": 1.84}
+      {"number": 1, "name": "3Tw3", "bv": 5.70, "goe": 0.23, "total": 5.93},
+      {"number": 2, "name": "3FTh", "bv": 5.30, "goe": -2.65, "total": 2.65},
+      {"number": 3, "name": "3S", "bv": 4.30, "goe": 0.09, "total": 4.39},
+      {"number": 4, "name": "BiDs3", "bv": 3.70, "goe": 0.59, "total": 4.29},
+      {"number": 5, "name": "5RLi4", "bv": 7.00, "goe": 0.70, "total": 7.70},
+      {"number": 6, "name": "StSq2", "bv": 2.60, "goe": 0.31, "total": 2.91},
+      {"number": 7, "name": "CCoSp4", "bv": 3.50, "goe": 0.28, "total": 3.78}
     ],
-    "baseTechnicalScore": 38.89
+    "baseTechnicalScore": 32.10
   },
   {
     "rank": 7,
-    "name": "Артём",
-    "surname": "КОВАЛЁВ",
-    "location": "Москва, Школа ФК Александра Волкова",
-    "region": "МОС",
-    "startNumber": 6,
-    "totalScore": 75.42,
-    "technicalScore": 37.59,
-    "componentScore": 37.83,
-    "deductions": 0.00,
-    "elements": [
-      {"number": 1, "name": "4Sq+2T", "bv": 11.00, "goe": -1.16, "total": 9.84},
-      {"number": 2, "name": "4T<", "bv": 7.60, "goe": -1.52, "total": 6.08},
-      {"number": 3, "name": "FCSp3", "bv": 2.80, "goe": 0.34, "total": 3.14},
-      {"number": 4, "name": "3A", "bv": 8.80, "goe": 1.76, "total": 10.56},
-      {"number": 5, "name": "CCoSp3", "bv": 3.00, "goe": 0.12, "total": 3.12},
-      {"number": 6, "name": "StSq1", "bv": 1.80, "goe": 0.29, "total": 2.09},
-      {"number": 7, "name": "CSSp3", "bv": 2.60, "goe": 0.16, "total": 2.76}
-    ],
-    "baseTechnicalScore": 37.60
-  },
-  {
-    "rank": 8,
-    "name": "Дамир",
-    "surname": "ЧЕРИПКА",
-    "location": "Краснодарский край, РЦСП по ФКК",
-    "region": "КРД",
-    "startNumber": 7,
-    "totalScore": 74.17,
-    "technicalScore": 41.60,
-    "componentScore": 32.57,
-    "deductions": 0.00,
-    "elements": [
-      {"number": 1, "name": "4T", "bv": 9.50, "goe": 1.90, "total": 11.40},
-      {"number": 2, "name": "3A", "bv": 8.00, "goe": 0.80, "total": 8.80},
-      {"number": 3, "name": "FCSp3", "bv": 2.80, "goe": 0.28, "total": 3.08},
-      {"number": 4, "name": "3Lz+3T", "bv": 11.11, "goe": -1.65, "total": 9.46},
-      {"number": 5, "name": "CCoSp3", "bv": 3.00, "goe": 0.30, "total": 3.30},
-      {"number": 6, "name": "StSq2", "bv": 2.60, "goe": 0.26, "total": 2.86},
-      {"number": 7, "name": "CSSp3", "bv": 2.60, "goe": 0.10, "total": 2.70}
-    ],
-    "baseTechnicalScore": 39.61
-  },
-  {
-    "rank": 9,
-    "name": "Никита",
-    "surname": "САРНОВСКИЙ",
-    "location": "Москва, Академия ФК \"Ангелы Плющенко\"",
-    "region": "МОС",
-    "startNumber": 9,
-    "totalScore": 73.73,
-    "technicalScore": 39.91,
-    "componentScore": 34.82,
-    "deductions": 1.00,
-    "elements": [
-      {"number": 1, "name": "2S*", "bv": 0.00, "goe": 0.00, "total": 0.00},
-      {"number": 2, "name": "4T+3T", "bv": 13.70, "goe": 2.09, "total": 15.79},
-      {"number": 3, "name": "FCSp3", "bv": 2.80, "goe": 0.39, "total": 3.19},
-      {"number": 4, "name": "3A", "bv": 8.80, "goe": 2.08, "total": 10.88},
-      {"number": 5, "name": "StSq3", "bv": 3.30, "goe": 0.33, "total": 3.63},
-      {"number": 6, "name": "CCoSp3", "bv": 3.00, "goe": 0.42, "total": 3.42},
-      {"number": 7, "name": "CSSp4", "bv": 3.00, "goe": 0.00, "total": 3.00}
-    ],
-    "baseTechnicalScore": 34.60
-  },
-  {
-    "rank": 10,
-    "name": "Артемий",
-    "surname": "МАРИНИН",
-    "location": "Москва, МАФКК - школа \"Наши надежды\"",
-    "region": "МОС",
-    "startNumber": 1,
-    "totalScore": 67.82,
-    "technicalScore": 35.50,
-    "componentScore": 32.32,
-    "deductions": 0.00,
-    "elements": [
-      {"number": 1, "name": "3A", "bv": 8.00, "goe": 0.16, "total": 8.16},
-      {"number": 2, "name": "CCoSp4", "bv": 3.50, "goe": 0.42, "total": 3.92},
-      {"number": 3, "name": "3F", "bv": 5.30, "goe": 0.95, "total": 6.25},
-      {"number": 4, "name": "2Lz+3T", "bv": 6.93, "goe": 0.00, "total": 6.93},
-      {"number": 5, "name": "StSq3", "bv": 3.30, "goe": 0.33, "total": 3.63},
-      {"number": 6, "name": "FCSp3", "bv": 2.80, "goe": 0.39, "total": 3.19},
-      {"number": 7, "name": "CSSp4", "bv": 3.00, "goe": 0.42, "total": 3.42}
-    ],
-    "baseTechnicalScore": 32.83
-  },
-  {
-    "rank": 11,
-    "name": "Данил",
-    "surname": "ФЕДОСИМОВ",
-    "location": "Санкт-Петербург, СШОР \"Академия фигурного катания\"",
-    "region": "СПБ",
-    "startNumber": 5,
-    "totalScore": 65.43,
-    "technicalScore": 33.11,
-    "componentScore": 33.32,
-    "deductions": 1.00,
-    "elements": [
-      {"number": 1, "name": "4T+2T", "bv": 10.80, "goe": 0.19, "total": 10.99},
-      {"number": 2, "name": "2A", "bv": 3.30, "goe": 0.20, "total": 3.50},
-      {"number": 3, "name": "CCSp3", "bv": 2.80, "goe": 0.45, "total": 3.25},
-      {"number": 4, "name": "3Lz", "bv": 6.49, "goe": -2.95, "total": 3.54},
-      {"number": 5, "name": "FSSp4", "bv": 3.00, "goe": 0.66, "total": 3.66},
-      {"number": 6, "name": "StSq3", "bv": 3.30, "goe": 0.46, "total": 3.76},
-      {"number": 7, "name": "CCoSp4", "bv": 3.50, "goe": 0.91, "total": 4.41}
-    ],
-    "baseTechnicalScore": 33.19
-  },
-  {
-    "rank": 12,
-    "name": "Михаил",
-    "surname": "ПОЛЯНСКИЙ",
+    "name": "Дарья / Александр",
+    "surname": "АНДРЕЕВА / АКИМОВ",
     "location": "Санкт-Петербург, СШОР \"Академия фигурного катания\"",
     "region": "СПБ",
     "startNumber": 3,
-    "totalScore": 63.45,
-    "technicalScore": 30.21,
-    "componentScore": 34.24,
+    "totalScore": 57.08,
+    "technicalScore": 31.07,
+    "componentScore": 26.01,
+    "deductions": 0.00,
+    "elements": [
+      {"number": 1, "name": "3Tq", "bv": 4.20, "goe": -0.42, "total": 3.78},
+      {"number": 2, "name": "3Tw1", "bv": 5.10, "goe": -0.71, "total": 4.39},
+      {"number": 3, "name": "3FTh", "bv": 5.30, "goe": 0.11, "total": 5.41},
+      {"number": 4, "name": "5ALi4", "bv": 7.00, "goe": 0.84, "total": 7.84},
+      {"number": 5, "name": "BiDs1", "bv": 3.10, "goe": 0.31, "total": 3.41},
+      {"number": 6, "name": "StSq2", "bv": 2.60, "goe": 0.21, "total": 2.81},
+      {"number": 7, "name": "CCoSp4", "bv": 3.50, "goe": -0.07, "total": 3.43}
+    ],
+    "baseTechnicalScore": 30.80
+  },
+  {
+    "rank": 8,
+    "name": "Ева / Владислав",
+    "surname": "ХМЕЛЬКОВА / АНТОНЫШЕВ",
+    "location": "Московская область, АНО ДО \"АФК \"Наши Надежды\"",
+    "region": "МОБ",
+    "startNumber": 4,
+    "totalScore": 54.92,
+    "technicalScore": 30.18,
+    "componentScore": 25.74,
     "deductions": 1.00,
     "elements": [
-      {"number": 1, "name": "2Lz*", "bv": 0.00, "goe": 0.00, "total": 0.00},
-      {"number": 2, "name": "3Aq", "bv": 8.00, "goe": -4.00, "total": 4.00},
-      {"number": 3, "name": "FCSp4", "bv": 3.20, "goe": 0.45, "total": 3.65},
-      {"number": 4, "name": "3Lz+3T", "bv": 11.11, "goe": 0.71, "total": 11.82},
-      {"number": 5, "name": "StSq2", "bv": 2.60, "goe": 0.47, "total": 3.07},
-      {"number": 6, "name": "CCoSp4", "bv": 3.50, "goe": 0.63, "total": 4.13},
-      {"number": 7, "name": "CSSp4", "bv": 3.00, "goe": 0.54, "total": 3.54}
+      {"number": 1, "name": "3Tw3", "bv": 5.70, "goe": 0.57, "total": 6.27},
+      {"number": 2, "name": "3Lo<<", "bv": 1.70, "goe": -0.85, "total": 0.85},
+      {"number": 3, "name": "3FTh", "bv": 5.30, "goe": 0.74, "total": 6.04},
+      {"number": 4, "name": "5RLi3", "bv": 6.60, "goe": 0.92, "total": 7.52},
+      {"number": 5, "name": "BiDs3", "bv": 3.70, "goe": 0.30, "total": 4.00},
+      {"number": 6, "name": "StSq2", "bv": 2.60, "goe": 0.26, "total": 2.86},
+      {"number": 7, "name": "CCoSp3", "bv": 3.00, "goe": -0.36, "total": 2.64}
     ],
-    "baseTechnicalScore": 31.41
+    "baseTechnicalScore": 28.60
   }
 ]
-  
 
   
 
